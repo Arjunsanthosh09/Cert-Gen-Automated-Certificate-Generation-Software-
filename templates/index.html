@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,96 +8,102 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
     <div class="floating-element float-1"></div>
     <div class="floating-element float-2"></div>
     <div class="floating-element float-3"></div>
-    <svg class="certificate-float cert-1" width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="10" y="10" width="80" height="60" rx="4" stroke="white" stroke-width="2" fill="none"/>
-        <line x1="20" y1="30" x2="60" y2="30" stroke="white" stroke-width="2"/>
-        <line x1="20" y1="40" x2="80" y2="40" stroke="white" stroke-width="1"/>
-        <line x1="20" y1="50" x2="70" y2="50" stroke="white" stroke-width="1"/>
-        <circle cx="80" cy="70" r="15" fill="white" opacity="0.3"/>
+    <svg class="certificate-float cert-1" width="80" height="80" viewBox="0 0 100 100" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="10" width="80" height="60" rx="4" stroke="white" stroke-width="2" fill="none" />
+        <line x1="20" y1="30" x2="60" y2="30" stroke="white" stroke-width="2" />
+        <line x1="20" y1="40" x2="80" y2="40" stroke="white" stroke-width="1" />
+        <line x1="20" y1="50" x2="70" y2="50" stroke="white" stroke-width="1" />
+        <circle cx="80" cy="70" r="15" fill="white" opacity="0.3" />
     </svg>
 
-    <svg class="certificate-float cert-2" width="70" height="70" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="15" y="15" width="70" height="50" rx="3" stroke="white" stroke-width="2" fill="none"/>
-        <path d="M50 35 L55 45 L45 45 Z" fill="white"/>
-        <circle cx="50" cy="55" r="3" fill="white"/>
+    <svg class="certificate-float cert-2" width="70" height="70" viewBox="0 0 100 100" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <rect x="15" y="15" width="70" height="50" rx="3" stroke="white" stroke-width="2" fill="none" />
+        <path d="M50 35 L55 45 L45 45 Z" fill="white" />
+        <circle cx="50" cy="55" r="3" fill="white" />
     </svg>
 
-    <svg class="certificate-float cert-3" width="90" height="90" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="10" y="20" width="80" height="50" rx="4" stroke="white" stroke-width="2" fill="none"/>
-        <polyline points="30,40 35,45 45,35" stroke="white" stroke-width="2" fill="none"/>
-        <line x1="55" y1="40" x2="80" y2="40" stroke="white" stroke-width="1"/>
+    <svg class="certificate-float cert-3" width="90" height="90" viewBox="0 0 100 100" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="20" width="80" height="50" rx="4" stroke="white" stroke-width="2" fill="none" />
+        <polyline points="30,40 35,45 45,35" stroke="white" stroke-width="2" fill="none" />
+        <line x1="55" y1="40" x2="80" y2="40" stroke="white" stroke-width="1" />
     </svg>
 
-    <svg class="certificate-float cert-4" width="75" height="75" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="20" y="25" width="60" height="40" rx="3" stroke="white" stroke-width="2" fill="none"/>
-        <circle cx="50" cy="45" r="8" stroke="white" stroke-width="2" fill="none"/>
-        <path d="M50 70 L45 80 L50 77 L55 80 Z" fill="white"/>
+    <svg class="certificate-float cert-4" width="75" height="75" viewBox="0 0 100 100" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="25" width="60" height="40" rx="3" stroke="white" stroke-width="2" fill="none" />
+        <circle cx="50" cy="45" r="8" stroke="white" stroke-width="2" fill="none" />
+        <path d="M50 70 L45 80 L50 77 L55 80 Z" fill="white" />
     </svg>
 
     <nav>
-        <a href="#" class="logo">
-            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="4" y="4" width="24" height="18" rx="2" stroke="#ff0080" stroke-width="2"/>
-                <line x1="8" y1="10" x2="20" y2="10" stroke="#ff0080" stroke-width="2"/>
-                <line x1="8" y1="14" x2="24" y2="14" stroke="#7b2cbf" stroke-width="1"/>
-                <line x1="8" y1="18" x2="18" y2="18" stroke="#00d4ff" stroke-width="1"/>
-                <circle cx="24" cy="24" r="6" fill="#ff0080"/>
-                <path d="M22 24 L23.5 25.5 L26 23" stroke="white" stroke-width="1.5" fill="none"/>
-            </svg>
-            <span>CertGen</span>
+        <a href="/" class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CertGen Logo" class="logo-img"
+                width="15%" height="30%">
+
         </a>
         <div class="nav-right">
             <ul class="nav-links">
                 <li><a href="#overview">Overview</a></li>
                 <li><a href="#process">Process</a></li>
                 <li><a href="#features">Features</a></li>
-                <li><a href="#usecases">Use Cases</a></li>
                 <li><a href="/form">Add students</a></li>
-                <li><a href="/generate-page">Generate certificate</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Generate certificate ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/generate-page">Conference Certificate</a></li>
+                        <li><a href="/workshop-page">Workshop Certificate</a></li>
+                    </ul>
+                </li>
             </ul>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                 <svg class="theme-icon sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="5" stroke-width="2"/>
-                    <line x1="12" y1="1" x2="12" y2="3" stroke-width="2"/>
-                    <line x1="12" y1="21" x2="12" y2="23" stroke-width="2"/>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke-width="2"/>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke-width="2"/>
-                    <line x1="1" y1="12" x2="3" y2="12" stroke-width="2"/>
-                    <line x1="21" y1="12" x2="23" y2="12" stroke-width="2"/>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke-width="2"/>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="5" stroke-width="2" />
+                    <line x1="12" y1="1" x2="12" y2="3" stroke-width="2" />
+                    <line x1="12" y1="21" x2="12" y2="23" stroke-width="2" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke-width="2" />
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke-width="2" />
+                    <line x1="1" y1="12" x2="3" y2="12" stroke-width="2" />
+                    <line x1="21" y1="12" x2="23" y2="12" stroke-width="2" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke-width="2" />
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke-width="2" />
                 </svg>
                 <svg class="theme-icon moon-icon" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                 </svg>
             </button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero">
         <h1>
             Automated Certificate<br>
             Generation Software
         </h1>
-        
+
         <div style="margin: 2rem 0;">
             <span class="highlight">Fast. Accurate. Scalable.</span>
         </div>
 
         <p>
-            A web-based system that creates personalized certificates for events, conferences, and workshops using structured student data and delivers them securely in PDF format.
+            A web-based system that creates personalized certificates for events, conferences, and workshops using
+            structured student data and delivers them securely in PDF format.
         </p>
     </section>
 
     <section class="description-section">
         <div class="description-box">
             <p>
-                This software automates the creation of certificates by dynamically inserting participant details such as name, paper title, and event information into a predefined certificate layout. Each certificate is generated as a PDF and uniquely identified for authenticity.
+                This software automates the creation of certificates by dynamically inserting participant details such
+                as name, paper title, and event information into a predefined certificate layout. Each certificate is
+                generated as a PDF and uniquely identified for authenticity.
             </p>
         </div>
     </section>
@@ -136,7 +143,8 @@
         <div class="overview-grid">
             <div class="overview-card">
                 <h3>📊 Structured Data Input</h3>
-                <p>Accepts structured student data including name, paper title, and email address for seamless processing.</p>
+                <p>Accepts structured student data including name, paper title, and email address for seamless
+                    processing.</p>
             </div>
             <div class="overview-card">
                 <h3>📄 Individual Certificate Generation</h3>
@@ -165,21 +173,24 @@
                 <div class="step-number">01</div>
                 <div class="step-content">
                     <h3>Data Storage</h3>
-                    <p>Student information is stored in a structured format, ensuring all necessary details are organized and accessible.</p>
+                    <p>Student information is stored in a structured format, ensuring all necessary details are
+                        organized and accessible.</p>
                 </div>
             </div>
             <div class="process-step">
                 <div class="step-number">02</div>
                 <div class="step-content">
                     <h3>Layout Definition</h3>
-                    <p>Certificate layout is predefined and standardized according to institutional requirements and branding guidelines.</p>
+                    <p>Certificate layout is predefined and standardized according to institutional requirements and
+                        branding guidelines.</p>
                 </div>
             </div>
             <div class="process-step">
                 <div class="step-number">03</div>
                 <div class="step-content">
                     <h3>Dynamic Placement</h3>
-                    <p>Student details are dynamically placed into the certificate template with precise positioning and formatting.</p>
+                    <p>Student details are dynamically placed into the certificate template with precise positioning and
+                        formatting.</p>
                 </div>
             </div>
             <div class="process-step">
@@ -284,16 +295,7 @@
         </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="section">
-        <h2 class="section-title">Feedback</h2>
-        <div class="testimonial">
-            <p class="testimonial-text">
-                "The system simplified certificate preparation for our conference and reduced processing time significantly. What used to take days now takes minutes."
-            </p>
-            <p class="testimonial-author">— Conference Organizing Committee</p>
-        </div>
-    </section>
+
 
     <!-- Footer -->
     <footer>
@@ -329,23 +331,20 @@
     </footer>
 
     <script>
-        // Theme Toggle Functionality
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
-        
-        // Check for saved theme preference or default to 'dark'
+
         const currentTheme = localStorage.getItem('theme') || 'dark';
         html.setAttribute('data-theme', currentTheme);
-        
+
         themeToggle.addEventListener('click', () => {
             const theme = html.getAttribute('data-theme');
             const newTheme = theme === 'dark' ? 'light' : 'dark';
-            
+
             html.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
         });
 
-        // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -359,18 +358,16 @@
             });
         });
 
-        // Parallax effect for floating elements
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const floatElements = document.querySelectorAll('.floating-element');
-            
+
             floatElements.forEach((element, index) => {
                 const speed = 0.5 + (index * 0.1);
                 element.style.transform = `translateY(${scrolled * speed}px)`;
             });
         });
 
-        // Intersection Observer for fade-in animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -100px 0px'
@@ -385,7 +382,6 @@
             });
         }, observerOptions);
 
-        // Observe all sections
         document.querySelectorAll('.section, .overview-card, .why-card, .process-step').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
@@ -394,4 +390,5 @@
         });
     </script>
 </body>
+
 </html>

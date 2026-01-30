@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, redirect, send_file
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 import json
 import os
 import zipfile
@@ -12,13 +14,24 @@ from reportlab.lib.enums import TA_JUSTIFY
 app = Flask(__name__)
 
 JSON_FILE = "students.json"
+WORKSHOP_JSON = "workshop.json"
+
 CERT_FOLDER = "certificates"
 ZIP_FILE = "certificates.zip"
+WORKSHOP_ZIP = "workshop_certificates.zip"
 
 if not os.path.exists(CERT_FOLDER):
     os.makedirs(CERT_FOLDER)
 
 
+pdfmetrics.registerFont(TTFont("CasusPro", "fonts/CasusPro.ttf"))
+pdfmetrics.registerFont(TTFont("CasusPro-Bold", "fonts/CasusPro-Bold.ttf"))
+
+pdfmetrics.registerFontFamily(
+    "CasusPro",
+    normal="CasusPro",
+    bold="CasusPro-Bold"
+)
 
 @app.route("/")
 def home():
@@ -34,6 +47,9 @@ def form():
 def generate_page():
     return render_template("generatecertificate.html")
 
+@app.route("/workshop-page")
+def workshop_page():
+    return render_template("workshopcetificate.html")
 
 @app.route("/submit", methods=["POST"])
 def submit():
@@ -87,14 +103,17 @@ def generate_certificates():
 
             c = canvas.Canvas(pdf_path, pagesize=A4)
             width, height = A4
+
             c.drawImage("certificate_template.jpg", 0, 0, width, height)
-            c.setFont("Times-Bold", 22)
+
+            c.setFont("CasusPro", 22)
             c.drawCentredString(width / 2, 400, name)
+
             style = ParagraphStyle(
                 name="CertificateText",
-                fontName="Times-Roman",
+                fontName="CasusPro",
                 fontSize=13,
-                leading=19,
+                leading=23,
                 alignment=TA_JUSTIFY
             )
 
@@ -105,30 +124,87 @@ of <b>{college}</b> has presented a paper titled as
 INTEGRATING BUSINESS, TECHNOLOGY AND
 COMPUTATIONAL MATHEMATICS FOR SUSTAINABLE
 FUTURE"</b> organised by <b>DEPARTMENT OF COMPUTER
-APPLICATIONS</b> From 05/02/2026 To 06/02/2026
+APPLICATIONS</b> From<b> 05/02/2026 To 06/02/2026</b>
 """
 
             frame = Frame(
-                x1=95,              
-                y1=170,              
-                width=width - 180,    
-                height=210,          
+                x1=85,
+                y1=170,
+                width=width - 180,
+                height=210,
                 showBoundary=0
             )
 
             frame.addFromList([Paragraph(text, style)], c)
 
-            c.setFont("Times-Roman", 11)
-           
-
             c.save()
             zipf.write(pdf_path, arcname=f"{safe_name}.pdf")
 
+    return send_file(ZIP_FILE, as_attachment=True, download_name="certificates.zip")
+
+
+@app.route("/generate-workshop")
+def generate_workshop_certificates():
+
+    if not os.path.exists(WORKSHOP_JSON):
+        return "No workshop data found."
+
+    with open(WORKSHOP_JSON, "r") as f:
+        students = json.load(f)
+
+    with zipfile.ZipFile(WORKSHOP_ZIP, "w", zipfile.ZIP_DEFLATED) as zipf:
+
+        for student in students:
+            name = student["name"]
+            college = student["college"]
+
+            safe_name = name.replace(" ", "_")
+            pdf_path = os.path.join(CERT_FOLDER, f"{safe_name}_workshop.pdf")
+
+            c = canvas.Canvas(pdf_path, pagesize=A4)
+            width, height = A4
+
+            c.drawImage("certificate_template_workshop.jpg", 0, 0, width, height)
+
+            c.setFont("CasusPro", 22)
+            c.drawCentredString(width / 2, 400, name)
+
+            style = ParagraphStyle(
+                name="WorkshopText",
+                fontName="CasusPro",
+                fontSize=13,
+                leading=30,
+                alignment=TA_JUSTIFY
+            )
+
+            text = f"""
+of <b>{college}</b> has participated in the
+<b>ONE DAY WORKSHOP ON
+PROBLEM SOLVING AND PROGRAMMING USING PYTHON</b>
+organised by <b>DEPARTMENT OF
+COMPUTER APPLICATIONS</b> on <b>07/01/2026</b>.
+"""
+
+            frame = Frame(
+                x1=85,
+                y1=160,
+                width=width - 180,
+                height=210,
+                showBoundary=0
+            )
+
+            frame.addFromList([Paragraph(text, style)], c)
+
+            c.save()
+            zipf.write(pdf_path, arcname=f"{safe_name}_workshop.pdf")
+
     return send_file(
-        ZIP_FILE,
+        WORKSHOP_ZIP,
         as_attachment=True,
-        download_name="certificates.zip"
+        download_name="workshop_certificates.zip"
     )
+
+
 
 
 if __name__ == "__main__":
