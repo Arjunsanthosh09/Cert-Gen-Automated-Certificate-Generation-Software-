@@ -42,6 +42,16 @@ def home():
 def form():
     return render_template("form.html")
 
+@app.route("/students")
+def view_students():
+    if not os.path.exists(JSON_FILE):
+        students = []
+    else:
+        with open(JSON_FILE, "r") as f:
+            students = json.load(f)
+
+    return render_template("students.html", students=students)
+
 
 @app.route("/generate-page")
 def generate_page():
@@ -80,6 +90,86 @@ def submit():
         json.dump(data, f, indent=4)
 
     return redirect("/form")
+
+@app.route("/workshop-students")
+def workshop_students():
+    if not os.path.exists(WORKSHOP_JSON):
+        students = []
+    else:
+        with open(WORKSHOP_JSON, "r") as f:
+            students = json.load(f)
+
+    return render_template("workshop_students.html", students=students)
+
+@app.route("/generate-workshop-batch/<int:batch>")
+def generate_workshop_batch(batch):
+
+    if not os.path.exists(WORKSHOP_JSON):
+        return "No workshop data found."
+
+    with open(WORKSHOP_JSON, "r") as f:
+        students = json.load(f)
+
+    batch_size = 10
+    start = batch * batch_size
+    end = start + batch_size
+    selected_students = students[start:end]
+
+    if not selected_students:
+        return "No more certificates to generate."
+
+    zip_name = f"workshop_certificates_{batch + 1}.zip"
+
+    with zipfile.ZipFile(zip_name, "w", zipfile.ZIP_DEFLATED) as zipf:
+
+        for student in selected_students:
+            name = student["name"]
+            college = student["college"]
+
+            safe_name = name.replace(" ", "_")
+            pdf_path = os.path.join(CERT_FOLDER, f"{safe_name}_workshop.pdf")
+
+            c = canvas.Canvas(pdf_path, pagesize=A4)
+            width, height = A4
+
+            c.drawImage(
+                "certificate_template_workshop.jpg",
+                0, 0, width, height
+            )
+
+            c.setFont("CasusPro", 22)
+            c.drawCentredString(width / 2, 400, name)
+
+            style = ParagraphStyle(
+                name="WorkshopText",
+                fontName="CasusPro",
+                fontSize=13,
+                leading=30,
+                alignment=TA_JUSTIFY
+            )
+
+            text = f"""
+of <b>{college}</b> has participated in the
+<b>ONE DAY WORKSHOP ON
+PROBLEM SOLVING AND PROGRAMMING USING PYTHON</b>
+organised by <b>DEPARTMENT OF
+COMPUTER APPLICATIONS</b> on <b>07/01/2026</b>.
+"""
+
+            frame = Frame(
+                x1=85,
+                y1=160,
+                width=width - 180,
+                height=210,
+                showBoundary=0
+            )
+
+            frame.addFromList([Paragraph(text, style)], c)
+
+            c.save()
+            zipf.write(pdf_path, arcname=f"{safe_name}_workshop.pdf")
+
+    return send_file(zip_name, as_attachment=True)
 
 
 @app.route("/generate")

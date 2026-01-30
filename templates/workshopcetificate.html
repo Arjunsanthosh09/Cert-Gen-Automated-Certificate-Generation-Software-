@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
-        /* Generate Page Specific Styles */
         .generate-container {
             max-width: 900px;
             margin: 4rem auto;
@@ -211,7 +210,6 @@
             height: 20px;
         }
 
-        /* Stats Cards */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -248,7 +246,6 @@
             font-size: 0.9rem;
         }
 
-        /* Loading Animation */
         @keyframes pulse {
 
             0%,
@@ -434,11 +431,9 @@
     </div>
 
     <script>
-        // Theme Toggle Functionality
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
 
-        // Check for saved theme preference or default to 'dark'
         const currentTheme = localStorage.getItem('theme') || 'dark';
         html.setAttribute('data-theme', currentTheme);
 
@@ -450,7 +445,6 @@
             localStorage.setItem('theme', newTheme);
         });
 
-        // Parallax effect for floating elements
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const floatElements = document.querySelectorAll('.floating-element');

@@ -413,31 +413,29 @@
                 </div>
             </div>
 
-            <div class="button-group">
-                <a href="/generate" class="generate-btn" id="generateBtn">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Generate Certificates
-                </a>
-                <a href="/" class="back-btn">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    Back to Home
-                </a>
+            <div class="generate-buttons">
+                <a href="/generate?batch=1" class="btn">Generate Certificates (1–20)</a>
+                <a href="/generate?batch=2" class="btn">Generate Certificates (21–40)</a>
+                <a href="/generate?batch=3" class="btn">Generate Certificates (41–60)</a>
             </div>
+            <button onclick="generateNextBatch()" class="btn">
+                Generate Next 20 Certificates
+            </button>
+            <a href="/" class="back-btn">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Back to Home
+            </a>
         </div>
+    </div>
     </div>
 
     <script>
-        // Theme Toggle Functionality
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
 
-        // Check for saved theme preference or default to 'dark'
         const currentTheme = localStorage.getItem('theme') || 'dark';
         html.setAttribute('data-theme', currentTheme);
 
@@ -499,6 +497,12 @@
                 }
             });
         });
+        let batch = 1;
+
+        function generateNextBatch() {
+            window.location.href = `/generate?batch=${batch}`;
+            batch++;
+        }
     </script>
 </body>
 
