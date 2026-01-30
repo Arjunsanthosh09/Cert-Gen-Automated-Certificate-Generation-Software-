@@ -5,10 +5,15 @@ import zipfile
 
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
+from reportlab.platypus import Paragraph, Frame
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.enums import TA_JUSTIFY
 
 app = Flask(__name__)
 
-
+# -----------------------------
+# CONFIG
+# -----------------------------
 JSON_FILE = "students.json"
 CERT_FOLDER = "certificates"
 ZIP_FILE = "certificates.zip"
@@ -16,7 +21,9 @@ ZIP_FILE = "certificates.zip"
 if not os.path.exists(CERT_FOLDER):
     os.makedirs(CERT_FOLDER)
 
-
+# -----------------------------
+# ROUTES
+# -----------------------------
 
 @app.route("/")
 def home():
@@ -86,64 +93,54 @@ def generate_certificates():
             c = canvas.Canvas(pdf_path, pagesize=A4)
             width, height = A4
 
+            # -----------------------------
+            # BACKGROUND TEMPLATE
+            # -----------------------------
             c.drawImage("certificate_template.jpg", 0, 0, width, height)
 
+            # -----------------------------
+            # STUDENT NAME (MOVED DOWN)
+            # -----------------------------
             c.setFont("Times-Bold", 22)
-            c.drawCentredString(width / 2, 420, name)
+            c.drawCentredString(width / 2, 400, name)
 
-            x = 100
-            y = 360
-
-            c.setFont("Times-Roman", 14)
-            c.drawString(x, y, "of ")
-
-            c.setFont("Times-Bold", 14)
-            c.drawString(x + 25, y, college)
-
-            c.setFont("Times-Roman", 14)
-            c.drawString(
-                x + 25 + len(college) * 7,
-                y,
-                " has presented a paper titled as "
+            # -----------------------------
+            # CERTIFICATE PARAGRAPH (JUSTIFIED + BELOW DOTTED LINE)
+            # -----------------------------
+            style = ParagraphStyle(
+                name="CertificateText",
+                fontName="Times-Roman",
+                fontSize=13,
+                leading=19,
+                alignment=TA_JUSTIFY
             )
 
-            c.setFont("Times-Bold", 14)
-            c.drawString(
-                x + 25 + len(college) * 7 + 235,
-                y,
-                paper
+            text = f"""
+of <b>{college}</b> has presented a paper titled as
+<b>{paper}</b> and it is selected as the Best Paper in the
+<b>INTERNATIONAL CONFERENCE ON "VIKSIT BHARAT 2047:
+INTEGRATING BUSINESS, TECHNOLOGY AND
+COMPUTATIONAL MATHEMATICS FOR SUSTAINABLE
+FUTURE"</b> organised by <b>DEPARTMENT OF COMPUTER
+APPLICATIONS</b> From 05/02/2026 To 06/02/2026
+"""
+
+            frame = Frame(
+                x1=95,               # left inside black line
+                y1=170,               # pushed DOWN below dotted line
+                width=width - 180,    # right boundary
+                height=210,           # paragraph height
+                showBoundary=0
             )
 
-            c.setFont("Times-Roman", 14)
-            c.drawString(
-                x,
-                y - 30,
-                "and it is selected as the Best Paper in the"
-            )
+            frame.addFromList([Paragraph(text, style)], c)
 
-            c.drawString(
-                x,
-                y - 60,
-                "INTERNATIONAL CONFERENCE ON \"VIKSIT BHARAT 2047: INTEGRATING\""
-            )
+            # -----------------------------
+            # SIGNATURE TITLES
+            # -----------------------------
+            c.setFont("Times-Roman", 11)
+           
 
-            c.drawString(
-                x,
-                y - 90,
-                "BUSINESS, TECHNOLOGY AND COMPUTATIONAL MATHEMATICS FOR SUSTAINABLE"
-            )
-
-            c.drawString(
-                x,
-                y - 120,
-                "FUTURE organised by DEPARTMENT OF COMPUTER APPLICATIONS"
-            )
-
-            c.drawString(
-                x,
-                y - 150,
-                "From 05/02/2026 To 06/02/2026"
-            )
             c.save()
             zipf.write(pdf_path, arcname=f"{safe_name}.pdf")
 
@@ -154,5 +151,8 @@ def generate_certificates():
     )
 
 
+# -----------------------------
+# MAIN
+# -----------------------------
 if __name__ == "__main__":
     app.run(debug=True)
