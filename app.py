@@ -206,6 +206,5 @@ COMPUTER APPLICATIONS</b> on <b>07/01/2026</b>.
 
 
 
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
