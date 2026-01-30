@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Automated Certificate Generation Software</title>
+    <title></title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <div class="floating-element float-1"></div>
@@ -55,6 +55,8 @@
                 <li><a href="#process">Process</a></li>
                 <li><a href="#features">Features</a></li>
                 <li><a href="#usecases">Use Cases</a></li>
+                <li><a href="/form">Add students</a></li>
+                <li><a href="/generate-page">Generate certificate</a></li>
             </ul>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                 <svg class="theme-icon sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,7 +93,6 @@
         </p>
     </section>
 
-    <!-- Description Section -->
     <section class="description-section">
         <div class="description-box">
             <p>
@@ -100,7 +101,6 @@
         </div>
     </section>
 
-    <!-- Certificate Visual Mockup -->
     <section class="certificate-visual">
         <div class="certificate-mockup">
             <div class="cert-header">
