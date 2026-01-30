@@ -124,7 +124,7 @@ of <b>{college}</b> has presented a paper titled as
 INTEGRATING BUSINESS, TECHNOLOGY AND
 COMPUTATIONAL MATHEMATICS FOR SUSTAINABLE
 FUTURE"</b> organised by <b>DEPARTMENT OF COMPUTER
-APPLICATIONS</b> From<b> 05/02/2026 To 06/02/2026</b>
+APPLICATIONS</b> From<b> 05/02/2026  To  06/02/2026</b>
 """
 
             frame = Frame(
