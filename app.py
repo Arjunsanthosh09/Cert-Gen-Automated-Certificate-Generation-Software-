@@ -11,9 +11,6 @@ from reportlab.lib.enums import TA_JUSTIFY
 
 app = Flask(__name__)
 
-# -----------------------------
-# CONFIG
-# -----------------------------
 JSON_FILE = "students.json"
 CERT_FOLDER = "certificates"
 ZIP_FILE = "certificates.zip"
@@ -21,9 +18,7 @@ ZIP_FILE = "certificates.zip"
 if not os.path.exists(CERT_FOLDER):
     os.makedirs(CERT_FOLDER)
 
-# -----------------------------
-# ROUTES
-# -----------------------------
+
 
 @app.route("/")
 def home():
@@ -92,21 +87,9 @@ def generate_certificates():
 
             c = canvas.Canvas(pdf_path, pagesize=A4)
             width, height = A4
-
-            # -----------------------------
-            # BACKGROUND TEMPLATE
-            # -----------------------------
             c.drawImage("certificate_template.jpg", 0, 0, width, height)
-
-            # -----------------------------
-            # STUDENT NAME (MOVED DOWN)
-            # -----------------------------
             c.setFont("Times-Bold", 22)
             c.drawCentredString(width / 2, 400, name)
-
-            # -----------------------------
-            # CERTIFICATE PARAGRAPH (JUSTIFIED + BELOW DOTTED LINE)
-            # -----------------------------
             style = ParagraphStyle(
                 name="CertificateText",
                 fontName="Times-Roman",
@@ -126,18 +109,15 @@ APPLICATIONS</b> From 05/02/2026 To 06/02/2026
 """
 
             frame = Frame(
-                x1=95,               # left inside black line
-                y1=170,               # pushed DOWN below dotted line
-                width=width - 180,    # right boundary
-                height=210,           # paragraph height
+                x1=95,              
+                y1=170,              
+                width=width - 180,    
+                height=210,          
                 showBoundary=0
             )
 
             frame.addFromList([Paragraph(text, style)], c)
 
-            # -----------------------------
-            # SIGNATURE TITLES
-            # -----------------------------
             c.setFont("Times-Roman", 11)
            
 
@@ -151,8 +131,5 @@ APPLICATIONS</b> From 05/02/2026 To 06/02/2026
     )
 
 
-# -----------------------------
-# MAIN
-# -----------------------------
 if __name__ == "__main__":
     app.run(debug=True)
