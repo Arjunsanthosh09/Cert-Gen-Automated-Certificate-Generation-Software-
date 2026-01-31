@@ -23,7 +23,6 @@ WORKSHOP_ZIP = "workshop_certificates.zip"
 if not os.path.exists(CERT_FOLDER):
     os.makedirs(CERT_FOLDER)
 
-
 pdfmetrics.registerFont(TTFont("CasusPro", "fonts/CasusPro.ttf"))
 pdfmetrics.registerFont(TTFont("CasusPro-Bold", "fonts/CasusPro-Bold.ttf"))
 
@@ -37,7 +36,6 @@ pdfmetrics.registerFontFamily(
 def home():
     return render_template("index.html")
 
-
 @app.route("/form")
 def form():
     return render_template("form.html")
@@ -49,9 +47,7 @@ def view_students():
     else:
         with open(JSON_FILE, "r") as f:
             students = json.load(f)
-
     return render_template("students.html", students=students)
-
 
 @app.route("/generate-page")
 def generate_page():
@@ -63,16 +59,11 @@ def workshop_page():
 
 @app.route("/submit", methods=["POST"])
 def submit():
-    name = request.form.get("name")
-    college = request.form.get("college")
-    paper_title = request.form.get("paper_title")
-    email = request.form.get("email")
-
     new_data = {
-        "name": name,
-        "college": college,
-        "paper_title": paper_title,
-        "email": email
+        "name": request.form.get("name"),
+        "college": request.form.get("college"),
+        "paper_title": request.form.get("paper_title"),
+        "email": request.form.get("email")
     }
 
     if os.path.exists(JSON_FILE):
@@ -98,7 +89,6 @@ def workshop_students():
     else:
         with open(WORKSHOP_JSON, "r") as f:
             students = json.load(f)
-
     return render_template("workshop_students.html", students=students)
 
 @app.route("/generate-workshop-batch/<int:batch>")
@@ -111,17 +101,19 @@ def generate_workshop_batch(batch):
         students = json.load(f)
 
     batch_size = 10
+    total_students = len(students)
+    total_batches = (total_students + batch_size - 1) // batch_size
+
+    if batch >= total_batches:
+        batch = 0
+
     start = batch * batch_size
     end = start + batch_size
     selected_students = students[start:end]
 
-    if not selected_students:
-        return "No more certificates to generate."
-
-    zip_name = f"workshop_certificates_{batch + 1}.zip"
+    zip_name = f"workshop_certificates_batch_{batch + 1}.zip"
 
     with zipfile.ZipFile(zip_name, "w", zipfile.ZIP_DEFLATED) as zipf:
-
         for student in selected_students:
             name = student["name"]
             college = student["college"]
@@ -132,10 +124,7 @@ def generate_workshop_batch(batch):
             c = canvas.Canvas(pdf_path, pagesize=A4)
             width, height = A4
 
-            c.drawImage(
-                "certificate_template_workshop.jpg",
-                0, 0, width, height
-            )
+            c.drawImage("certificate_template_workshop.jpg", 0, 0, width, height)
 
             c.setFont("CasusPro", 22)
             c.drawCentredString(width / 2, 400, name)
@@ -169,12 +158,13 @@ COMPUTER APPLICATIONS</b> on <b>07/01/2026</b>.
             c.save()
             zipf.write(pdf_path, arcname=f"{safe_name}_workshop.pdf")
 
-    return send_file(zip_name, as_attachment=True)
+    response = send_file(zip_name, as_attachment=True)
+    response.headers["Refresh"] = "0; url=/workshop-students"
+    return response
 
 
 @app.route("/generate")
 def generate_certificates():
-
     if not os.path.exists(JSON_FILE):
         return "No student data found."
 
@@ -182,7 +172,6 @@ def generate_certificates():
         students = json.load(f)
 
     with zipfile.ZipFile(ZIP_FILE, "w", zipfile.ZIP_DEFLATED) as zipf:
-
         for student in students:
             name = student["name"]
             college = student["college"]
@@ -214,7 +203,7 @@ of <b>{college}</b> has presented a paper titled as
 INTEGRATING BUSINESS, TECHNOLOGY AND
 COMPUTATIONAL MATHEMATICS FOR SUSTAINABLE
 FUTURE"</b> organised by <b>DEPARTMENT OF COMPUTER
-APPLICATIONS</b> From<b> 05/02/2026  To  06/02/2026</b>
+APPLICATIONS</b> From<b> 05/02/2026 To 06/02/2026</b>
 """
 
             frame = Frame(
@@ -231,7 +220,6 @@ APPLICATIONS</b> From<b> 05/02/2026  To  06/02/2026</b>
             zipf.write(pdf_path, arcname=f"{safe_name}.pdf")
 
     return send_file(ZIP_FILE, as_attachment=True, download_name="certificates.zip")
-
 
 @app.route("/generate-workshop")
 def generate_workshop_certificates():
@@ -293,7 +281,6 @@ COMPUTER APPLICATIONS</b> on <b>07/01/2026</b>.
         as_attachment=True,
         download_name="workshop_certificates.zip"
     )
-
 
 
 if __name__ == "__main__":

@@ -344,6 +344,8 @@
                     <ul class="dropdown-menu">
                         <li><a href="/generate-page">Conference Certificate</a></li>
                         <li><a href="/workshop-page">Workshop Certificate</a></li>
+                        <li><a href="/workshop-students">Workshop Batch wise Certificate</a></li>
+
                     </ul>
                 </li>
             </ul>
@@ -455,11 +457,10 @@
             });
         });
 
-        // Generate button interaction
         const generateBtn = document.getElementById('generateBtn');
 
         generateBtn.addEventListener('click', function (e) {
-            // Add loading state
+         
             this.classList.add('loading');
             this.innerHTML = `
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="animation: spin 1s linear infinite;">
@@ -468,10 +469,8 @@
                 Processing...
             `;
 
-            // Let the link navigate normally
         });
 
-        // Add spin animation
         const style = document.createElement('style');
         style.textContent = `
             @keyframes spin {
@@ -481,7 +480,6 @@
         `;
         document.head.appendChild(style);
 
-        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="/#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
