@@ -40,14 +40,6 @@ def home():
 def form():
     return render_template("form.html")
 
-@app.route("/students")
-def view_students():
-    if not os.path.exists(JSON_FILE):
-        students = []
-    else:
-        with open(JSON_FILE, "r") as f:
-            students = json.load(f)
-    return render_template("students.html", students=students)
 
 @app.route("/generate-page")
 def generate_page():
@@ -282,6 +274,32 @@ COMPUTER APPLICATIONS</b> on <b>07/01/2026</b>.
         download_name="workshop_certificates.zip"
     )
 
+@app.route("/workshop-submit", methods=["POST"])
+def workshop_submit():
+    new_data = {
+        "name": request.form.get("student_name"),
+        "college": request.form.get("student_college")
+    }
+
+    if os.path.exists(WORKSHOP_JSON):
+        with open(WORKSHOP_JSON, "r") as f:
+            try:
+                data = json.load(f)
+            except json.JSONDecodeError:
+                data = []
+    else:
+        data = []
+
+    data.append(new_data)
+
+    with open(WORKSHOP_JSON, "w") as f:
+        json.dump(data, f, indent=4)
+
+    return redirect("/workshopform")
+
+@app.route("/workshopform")
+def workshopform():
+    return render_template("workshopform.html")
 
 if __name__ == "__main__":
     app.run()

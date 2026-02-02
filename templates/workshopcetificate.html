@@ -327,7 +327,7 @@
     </svg>
 
 
-    <nav>
+   <nav>
         <a href="/" class="logo">
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CertGen Logo" class="logo-img"
                 width="15%" height="30%">
@@ -338,7 +338,14 @@
                 <li><a href="#overview">Overview</a></li>
                 <li><a href="#process">Process</a></li>
                 <li><a href="#features">Features</a></li>
-                <li><a href="/form">Add students</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Add Students ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/form">Conference Students</a></li>
+                        <li><a href="/workshopform">Workshop Students</a></li>
+                    </ul>
+                </li>
+
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle">Generate certificate ▾</a>
                     <ul class="dropdown-menu">

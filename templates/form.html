@@ -253,7 +253,14 @@
                 <li><a href="#overview">Overview</a></li>
                 <li><a href="#process">Process</a></li>
                 <li><a href="#features">Features</a></li>
-                <li><a href="/form">Add students</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Add Students ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/form">Conference Students</a></li>
+                        <li><a href="/workshopform">Workshop Students</a></li>
+                    </ul>
+                </li>
+
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle">Generate certificate ▾</a>
                     <ul class="dropdown-menu">
@@ -283,7 +290,7 @@
         </div>
     </nav>
 
-    <!-- Form Container -->
+  
     <div class="form-container">
         <div class="form-card">
             <div class="form-header">
@@ -292,7 +299,7 @@
             </div>
 
             <form action="/submit" method="post" id="certificateForm">
-                <!-- Student Name -->
+            
                 <div class="form-group">
                     <label for="name">
                         Student Name *
@@ -339,11 +346,9 @@
     </div>
 
     <script>
-        // Theme Toggle Functionality
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
 
-        // Check for saved theme preference or default to 'dark'
         const currentTheme = localStorage.getItem('theme') || 'dark';
         html.setAttribute('data-theme', currentTheme);
 
@@ -355,7 +360,6 @@
             localStorage.setItem('theme', newTheme);
         });
 
-        // Character counter for textarea
         const paperTitle = document.getElementById('paper_title');
         const charCount = document.getElementById('charCount');
 
@@ -365,21 +369,14 @@
             });
         }
 
-        // Form submission with loading state
         const form = document.getElementById('certificateForm');
         const submitBtn = document.getElementById('submitBtn');
 
         form.addEventListener('submit', function (e) {
-            // Add loading state to button
             submitBtn.classList.add('loading');
             submitBtn.textContent = 'Processing...';
-
-            // Form will submit normally after this
-            // Remove the preventDefault if you want normal form submission
-            // e.preventDefault(); 
         });
 
-        // Parallax effect for floating elements
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const floatElements = document.querySelectorAll('.floating-element');
