@@ -247,6 +247,7 @@
             color: var(--text-secondary);
             font-size: 0.9rem;
         }
+
         @keyframes pulse {
 
             0%,
@@ -420,14 +421,10 @@
                 </div>
             </div>
 
-            <div class="generate-buttons">
-                <a href="/generate?batch=1" class="btn">Generate Certificates (1–20)</a>
-                <a href="/generate?batch=2" class="btn">Generate Certificates (21–40)</a>
-                <a href="/generate?batch=3" class="btn">Generate Certificates (41–60)</a>
-            </div>
-            <button onclick="generateNextBatch()" class="btn">
-                Generate Next 20 Certificates
+            <button onclick="generateNextBatch()" class="generate-btn" id="generateBtn">
+                Generate Next 10 Certificates
             </button>
+
             <a href="/" class="back-btn">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -449,7 +446,6 @@
         themeToggle.addEventListener('click', () => {
             const theme = html.getAttribute('data-theme');
             const newTheme = theme === 'dark' ? 'light' : 'dark';
-
             html.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
         });
@@ -465,26 +461,37 @@
         });
 
         const generateBtn = document.getElementById('generateBtn');
+        let batch = 1;
 
         generateBtn.addEventListener('click', function (e) {
-            this.classList.add('loading');
-            this.innerHTML = `
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="animation: spin 1s linear infinite;">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                </svg>
-                Processing...
-            `;
 
+            this.classList.add('loading');
+            this.disabled = true;
+            this.innerHTML = `
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="animation: spin 1s linear infinite; width: 24px; height: 24px; vertical-align: middle;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+            Processing...
+        `;
+
+            setTimeout(() => {
+                this.classList.remove('loading');
+                this.disabled = false;
+                this.innerHTML = 'Generate Next 10 Certificates';
+
+                window.location.href = `/generate?batch=${batch}`;
+                batch++;
+            }, 5000);
         });
+
         const style = document.createElement('style');
         style.textContent = `
-            @keyframes spin {
-                from { transform: rotate(0deg); }
-                to { transform: rotate(360deg); }
-            }
-        `;
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    `;
         document.head.appendChild(style);
-
         document.querySelectorAll('a[href^="/#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -497,13 +504,8 @@
                 }
             });
         });
-        let batch = 1;
-
-        function generateNextBatch() {
-            window.location.href = `/generate?batch=${batch}`;
-            batch++;
-        }
     </script>
+
 </body>
 
 </html>
