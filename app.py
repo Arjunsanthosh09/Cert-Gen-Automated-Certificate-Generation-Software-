@@ -559,4 +559,4 @@ APPLICATIONS</b> From <b>05/02/2026 To 06/02/2026</b>
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

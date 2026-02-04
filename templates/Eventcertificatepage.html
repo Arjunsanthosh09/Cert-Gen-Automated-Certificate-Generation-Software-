@@ -442,38 +442,51 @@
     <!-- Navigation -->
     <nav>
         <a href="/" class="logo">
-            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="4" y="4" width="24" height="18" rx="2" stroke="#ff0080" stroke-width="2"/>
-                <line x1="8" y1="10" x2="20" y2="10" stroke="#ff0080" stroke-width="2"/>
-                <line x1="8" y1="14" x2="24" y2="14" stroke="#7b2cbf" stroke-width="1"/>
-                <line x1="8" y1="18" x2="18" y2="18" stroke="#00d4ff" stroke-width="1"/>
-                <circle cx="24" cy="24" r="6" fill="#ff0080"/>
-                <path d="M22 24 L23.5 25.5 L26 23" stroke="white" stroke-width="1.5" fill="none"/>
-            </svg>
-            <span>CertGen</span>
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CertGen Logo" class="logo-img"
+                width="15%" height="30%">
+
         </a>
         <div class="nav-right">
             <ul class="nav-links">
-                <li><a href="/#overview">Overview</a></li>
-                <li><a href="/#process">Process</a></li>
-                <li><a href="/#features">Features</a></li>
-                <li><a href="/#usecases">Use Cases</a></li>
-                <li><a href="/form">Form</a></li>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#process">Process</a></li>
+                <li><a href="/dynamic_event_cert">Event certificate </a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Add Students ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/form">Conference presentation</a></li>
+                        <li><a href="/conferenceparticipation">Conference particiapation</a></li>
+                        <li><a href="/workshopform">Workshop Students</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Generate certificate ▾</a>
+
+                    <ul class="dropdown-menu">
+                        <li><a href="/generate-page">Conference Certificate(BWD) </a></li>
+                        <li><a href="/conferencealldownload">Conference Certificate(ALL) </a></li>
+                        <li><a href="/workshop-page">Workshop Certificate</a></li>
+                        <li><a href="/workshop-students">Workshop Batch wise Certificate</a></li>
+
+                    </ul>
+                </li>
             </ul>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                 <svg class="theme-icon sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="5" stroke-width="2"/>
-                    <line x1="12" y1="1" x2="12" y2="3" stroke-width="2"/>
-                    <line x1="12" y1="21" x2="12" y2="23" stroke-width="2"/>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke-width="2"/>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke-width="2"/>
-                    <line x1="1" y1="12" x2="3" y2="12" stroke-width="2"/>
-                    <line x1="21" y1="12" x2="23" y2="12" stroke-width="2"/>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke-width="2"/>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="5" stroke-width="2" />
+                    <line x1="12" y1="1" x2="12" y2="3" stroke-width="2" />
+                    <line x1="12" y1="21" x2="12" y2="23" stroke-width="2" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke-width="2" />
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke-width="2" />
+                    <line x1="1" y1="12" x2="3" y2="12" stroke-width="2" />
+                    <line x1="21" y1="12" x2="23" y2="12" stroke-width="2" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke-width="2" />
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke-width="2" />
                 </svg>
                 <svg class="theme-icon moon-icon" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                 </svg>
             </button>
         </div>
