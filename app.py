@@ -523,31 +523,26 @@ def submit_conference():
 
 @app.route("/download-all-participant-certificates")
 def download_all_participant_certificates():
+
     if not os.path.exists(CONFERENCE_PART_JSON):
         return "No student data found."
 
     with open(CONFERENCE_PART_JSON, "r") as f:
         students = json.load(f)
+    zip_buffer = io.BytesIO()
 
-    all_zip = "all_conference_participation_certificates.zip"
-
-    with zipfile.ZipFile(all_zip, "w", zipfile.ZIP_DEFLATED) as zipf:
+    with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
         for student in students:
             name = student["name"]
             college = student["college"]
             paper = student["paper_title"]
-
             safe_name = name.replace(" ", "_")
-            pdf_path = os.path.join(CERT_FOLDER, f"{safe_name}.pdf")
-
-            c = canvas.Canvas(pdf_path, pagesize=A4)
+            pdf_buffer = io.BytesIO()
+            c = canvas.Canvas(pdf_buffer, pagesize=A4)
             width, height = A4
-
             c.drawImage("participantcertificatefinal.jpg", 0, 0, width, height)
-
             c.setFont("CasusPro-Bold", 17)
             c.drawCentredString(width / 2, 410, name)
-
             style = ParagraphStyle(
                 name="CertificateText",
                 fontName="CasusPro",
@@ -555,10 +550,9 @@ def download_all_participant_certificates():
                 leading=20,
                 alignment=TA_JUSTIFY
             )
-
             text = f"""
 of <b>{college}</b> has presented a paper titled as
-<b>{paper}</b> and it is selected as the Best Paper in the
+<b>{paper}</b> and has participated in the
 <b>INTERNATIONAL CONFERENCE ON "VIKSIT BHARAT 2047:
 INTEGRATING BUSINESS, TECHNOLOGY AND
 COMPUTATIONAL MATHEMATICS FOR SUSTAINABLE
@@ -568,11 +562,19 @@ APPLICATIONS</b> From <b>05/02/2026 To 06/02/2026</b>
 
             frame = Frame(87, 180, width - 180, 210, showBoundary=0)
             frame.addFromList([Paragraph(text, style)], c)
-
             c.save()
-            zipf.write(pdf_path, arcname=f"{safe_name}.pdf")
+            pdf_buffer.seek(0)
+            zipf.writestr(f"{safe_name}.pdf", pdf_buffer.read())
 
-    return send_file(all_zip, as_attachment=True)
+    zip_buffer.seek(0)
+
+    return send_file(
+        zip_buffer,
+        mimetype="application/zip",
+        as_attachment=True,
+        download_name="all_conference_participation_certificates.zip"
+    )
+
 
 #dynamically creating event 
 
