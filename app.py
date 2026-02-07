@@ -10,6 +10,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.platypus import Paragraph, Frame
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_JUSTIFY
+import io 
 
 app = Flask(__name__)
 
@@ -307,29 +308,29 @@ def workshop_submit():
 def workshopform():
     return render_template("workshopform.html")
 
-
-# ella certificate donwload cheyyan route
+# download certificates of conference presentation
 
 @app.route("/download-all-certificates")
 def download_all_certificates():
+
     if not os.path.exists(JSON_FILE):
         return "No student data found."
 
     with open(JSON_FILE, "r") as f:
         students = json.load(f)
 
-    all_zip = "all_certificates.zip"
+    zip_buffer = io.BytesIO()
 
-    with zipfile.ZipFile(all_zip, "w", zipfile.ZIP_DEFLATED) as zipf:
+    with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
         for student in students:
             name = student["name"]
             college = student["college"]
             paper = student["paper_title"]
 
             safe_name = name.replace(" ", "_")
-            pdf_path = os.path.join(CERT_FOLDER, f"{safe_name}.pdf")
 
-            c = canvas.Canvas(pdf_path, pagesize=A4)
+            pdf_buffer = io.BytesIO()
+            c = canvas.Canvas(pdf_buffer, pagesize=A4)
             width, height = A4
 
             c.drawImage("certificate_template.jpg", 0, 0, width, height)
@@ -359,9 +360,17 @@ APPLICATIONS</b> From <b>05/02/2026 To 06/02/2026</b>
             frame.addFromList([Paragraph(text, style)], c)
 
             c.save()
-            zipf.write(pdf_path, arcname=f"{safe_name}.pdf")
+            pdf_buffer.seek(0)
+            zipf.writestr(f"{safe_name}.pdf", pdf_buffer.read())
 
-    return send_file(all_zip, as_attachment=True)
+    zip_buffer.seek(0)
+
+    return send_file(
+        zip_buffer,
+        as_attachment=True,
+        download_name="all_certificates.zip",
+        mimetype="application/zip"
+    )
 
 #conference certficatinte all certifcate downloaded page
 
@@ -371,105 +380,113 @@ def conferencealldownload():
 
 #dynamic certificate template generating software
 
-@app.route("/generate-dynamic-certificates", methods=["POST"])
-def generate_dynamic_certificates():
+# @app.route("/generate-dynamic-certificates", methods=["POST"])
+# def generate_dynamic_certificates():
 
-    if not os.path.exists(JSON_FILE):
-        return "No student data found."
+#     if not os.path.exists(JSON_FILE):
+#         return "No student data found."
 
-    cert_type = request.form.get("cert_type")
-    program_name = request.form.get("program_name")
-    organized_by = request.form.get("organized_by")
-    event_date = request.form.get("event_date")
+#     cert_type = request.form.get("cert_type")
+#     program_name = request.form.get("program_name")
+#     organized_by = request.form.get("organized_by")
+#     event_date = request.form.get("event_date")
 
-    coordinators = request.form.getlist("coordinators[]")
-    coordinators = [c for c in coordinators if c.strip()]
+#     coordinators = request.form.getlist("coordinators[]")
+#     coordinators = [c for c in coordinators if c.strip()]
 
-    with open(JSON_FILE, "r") as f:
-        students = json.load(f)
+#     with open(JSON_FILE, "r") as f:
+#         students = json.load(f)
 
-    zip_name = "dynamic_certificates.zip"
+#     zip_name = "dynamic_certificates.zip"
 
-    with zipfile.ZipFile(zip_name, "w", zipfile.ZIP_DEFLATED) as zipf:
+#     with zipfile.ZipFile(zip_name, "w", zipfile.ZIP_DEFLATED) as zipf:
 
-        for student in students:
-            name = student["name"]
-            college = student["college"]
-            paper = student.get("paper_title", "")
+#         for student in students:
+#             name = student["name"]
+#             college = student["college"]
+#             paper = student.get("paper_title", "")
 
-            safe_name = name.replace(" ", "_")
-            pdf_path = os.path.join(CERT_FOLDER, f"{safe_name}.pdf")
+#             safe_name = name.replace(" ", "_")
+#             pdf_path = os.path.join(CERT_FOLDER, f"{safe_name}.pdf")
 
-            c = canvas.Canvas(pdf_path, pagesize=A4)
-            width, height = A4
+#             c = canvas.Canvas(pdf_path, pagesize=A4)
+#             width, height = A4
 
-            c.drawImage("template.jpg", 0, 0, width, height)
+#             c.drawImage("template.jpg", 0, 0, width, height)
 
-            c.setFont("CasusPro-Bold", 18)
-            c.drawCentredString(width / 2, 470, "PRESENTATION CERTIFICATE")
+#             c.setFont("CasusPro-Bold", 18)
+#             c.drawCentredString(width / 2, 470, "PRESENTATION CERTIFICATE")
 
-            c.setFont("CasusPro", 12)
-            c.drawCentredString(width / 2, 445, "This is to certify that")
+#             c.setFont("CasusPro", 12)
+#             c.drawCentredString(width / 2, 445, "This is to certify that")
 
-            c.setFont("CasusPro-Bold", 20)
-            c.drawCentredString(width / 2, 415, name)
+#             c.setFont("CasusPro-Bold", 20)
+#             c.drawCentredString(width / 2, 415, name)
 
-            style = ParagraphStyle(
-                name="CertBody",
-                fontName="CasusPro",
-                fontSize=12,
-                leading=18,
-                alignment=TA_JUSTIFY
-            )
+#             style = ParagraphStyle(
+#                 name="CertBody",
+#                 fontName="CasusPro",
+#                 fontSize=12,
+#                 leading=18,
+#                 alignment=TA_JUSTIFY
+#             )
 
-            if cert_type == "best_paper":
-                body_text = f"""
-of <b>{college}</b> has presented a paper titled as
-<b>{paper}</b> and it is selected as the Best Paper in the
-<b>{program_name}</b> organised by
-<b>{organized_by}</b>
-From <b>{event_date}</b>.
-"""
-            elif cert_type == "presentation":
-                body_text = f"""
-of <b>{college}</b> has presented a paper titled as
-<b>{paper}</b> in the
-<b>{program_name}</b> organised by
-<b>{organized_by}</b>
-From <b>{event_date}</b>.
-"""
-            else:
-                body_text = f"""
-of <b>{college}</b> has actively participated in the
-<b>{program_name}</b> organised by
-<b>{organized_by}</b>
-On <b>{event_date}</b>.
-"""
+#             if cert_type == "best_paper":
+#                 body_text = f"""
+# of <b>{college}</b> has presented a paper titled as
+# <b>{paper}</b> and it is selected as the Best Paper in the
+# <b>{program_name}</b> organised by
+# <b>{organized_by}</b>
+# From <b>{event_date}</b>.
+# """
+#             elif cert_type == "presentation":
+#                 body_text = f"""
+# of <b>{college}</b> has presented a paper titled as
+# <b>{paper}</b> in the
+# <b>{program_name}</b> organised by
+# <b>{organized_by}</b>
+# From <b>{event_date}</b>.
+# """
+#             else:
+#                 body_text = f"""
+# of <b>{college}</b> has actively participated in the
+# <b>{program_name}</b> organised by
+# <b>{organized_by}</b>
+# On <b>{event_date}</b>.
+# """
 
-            frame = Frame(85, 200, width - 170, 180, showBoundary=0)
-            frame.addFromList([Paragraph(body_text, style)], c)
-            c.setFont("CasusPro", 9)
+#             frame = Frame(85, 200, width - 170, 180, showBoundary=0)
+#             frame.addFromList([Paragraph(body_text, style)], c)
+#             c.setFont("CasusPro", 9)
 
-            if len(coordinators) == 2:
-                x_positions = [200, 400]
-            elif len(coordinators) == 3:
-                x_positions = [140, 300, 460]
-            else:
-                x_positions = []
+#             if len(coordinators) == 2:
+#                 x_positions = [200, 400]
+#             elif len(coordinators) == 3:
+#                 x_positions = [140, 300, 460]
+#             else:
+#                 x_positions = []
 
-            for i, coord in enumerate(coordinators):
-                c.drawCentredString(x_positions[i], 115, coord)
-                c.drawCentredString(x_positions[i], 100, "Coordinator")
+#             for i, coord in enumerate(coordinators):
+#                 c.drawCentredString(x_positions[i], 115, coord)
+#                 c.drawCentredString(x_positions[i], 100, "Coordinator")
 
-            c.save()
-            zipf.write(pdf_path, arcname=f"{safe_name}.pdf")
+#             c.save()
+#             zipf.write(pdf_path, arcname=f"{safe_name}.pdf")
 
-    return send_file(zip_name, as_attachment=True)
+#     return send_file(zip_name, as_attachment=True)
 
 
-@app.route('/dynamic_event_cert')
+@app.route("/dynamic_event_cert")
 def dynamic_event_cert():
-    return render_template("Eventcertificatepage.html")
+    signatures = [
+        f for f in os.listdir("signatures")
+        if f.lower().endswith((".png", ".jpg", ".jpeg"))
+    ]
+
+    return render_template(
+        "Eventcertificatepage.html",
+        signatures=signatures
+    )
 
 #conference participation certificate template 
 
@@ -557,6 +574,49 @@ APPLICATIONS</b> From <b>05/02/2026 To 06/02/2026</b>
 
     return send_file(all_zip, as_attachment=True)
 
+#dynamically creating event 
+
+@app.route("/create-event", methods=["POST"])
+def create_event():
+
+    program_name = request.form.get("program_name")
+    safe_event = program_name.replace(" ", "_")
+
+    event_data = {
+        "cert_type": request.form.get("cert_type"),
+        "program_name": program_name,
+        "organized_by": request.form.get("organized_by"),
+        "event_date": request.form.get("event_date"),
+        "coordinators": []
+    }
+
+    for i in range(1, 4):
+        desig = request.form.get(f"coord_desig_{i}")
+        name = request.form.get(f"coord_name_{i}")
+        sign = request.form.get(f"coord_sign_{i}")
+
+        if desig and name and sign:
+            event_data["coordinators"].append({
+                "designation": desig,
+                "name": name,
+                "signature": f"signatures/{sign}"
+            })
+
+    event_meta_path = f"events/event_meta/{safe_event}.json"
+    with open(event_meta_path, "w") as f:
+        json.dump(event_data, f, indent=4)
+    student_file = f"events/event_students/{safe_event}_students.json"
+    with open(student_file, "w") as f:
+        json.dump([], f, indent=4)
+
+    return redirect("/events")
+
+#dynamic event gneration view and add students and download certficate
+@app.route("/events")
+def events():
+    files = os.listdir("events/event_meta")
+    events = [f.replace(".json", "").replace("_", " ") for f in files]
+    return render_template("events.html", events=events)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

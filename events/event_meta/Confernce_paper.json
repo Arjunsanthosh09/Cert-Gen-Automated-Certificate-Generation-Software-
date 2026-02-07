@@ -1,0 +1,23 @@
+{
+    "cert_type": "presentation",
+    "program_name": "Confernce paper",
+    "organized_by": "Department of Computer application",
+    "event_date": "04-02-2026",
+    "coordinators": [
+        {
+            "designation": "Coordinator",
+            "name": "Vidya",
+            "signature": "signatures/vidya.png"
+        },
+        {
+            "designation": "Head of the Department",
+            "name": "Tiji Thomas",
+            "signature": "signatures/Tiji thomas.png"
+        },
+        {
+            "designation": "Principal",
+            "name": "Dr. Varghese K Cheriyan",
+            "signature": "signatures/dr varghese k cheriyan.png"
+        }
+    ]
+}

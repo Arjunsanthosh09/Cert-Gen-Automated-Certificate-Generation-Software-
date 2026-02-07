@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -406,6 +407,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Floating Background Elements -->
     <div class="floating-element float-1"></div>
@@ -413,33 +415,35 @@
     <div class="floating-element float-3"></div>
 
     <!-- Certificate Floating Icons -->
-    <svg class="certificate-float cert-1" width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="10" y="10" width="80" height="60" rx="4" stroke="white" stroke-width="2" fill="none"/>
-        <line x1="20" y1="30" x2="60" y2="30" stroke="white" stroke-width="2"/>
-        <line x1="20" y1="40" x2="80" y2="40" stroke="white" stroke-width="1"/>
-        <line x1="20" y1="50" x2="70" y2="50" stroke="white" stroke-width="1"/>
-        <circle cx="80" cy="70" r="15" fill="white" opacity="0.3"/>
+    <svg class="certificate-float cert-1" width="80" height="80" viewBox="0 0 100 100" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="10" width="80" height="60" rx="4" stroke="white" stroke-width="2" fill="none" />
+        <line x1="20" y1="30" x2="60" y2="30" stroke="white" stroke-width="2" />
+        <line x1="20" y1="40" x2="80" y2="40" stroke="white" stroke-width="1" />
+        <line x1="20" y1="50" x2="70" y2="50" stroke="white" stroke-width="1" />
+        <circle cx="80" cy="70" r="15" fill="white" opacity="0.3" />
     </svg>
 
-    <svg class="certificate-float cert-2" width="70" height="70" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="15" y="15" width="70" height="50" rx="3" stroke="white" stroke-width="2" fill="none"/>
-        <path d="M50 35 L55 45 L45 45 Z" fill="white"/>
-        <circle cx="50" cy="55" r="3" fill="white"/>
+    <svg class="certificate-float cert-2" width="70" height="70" viewBox="0 0 100 100" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <rect x="15" y="15" width="70" height="50" rx="3" stroke="white" stroke-width="2" fill="none" />
+        <path d="M50 35 L55 45 L45 45 Z" fill="white" />
+        <circle cx="50" cy="55" r="3" fill="white" />
     </svg>
 
-    <svg class="certificate-float cert-3" width="90" height="90" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="10" y="20" width="80" height="50" rx="4" stroke="white" stroke-width="2" fill="none"/>
-        <polyline points="30,40 35,45 45,35" stroke="white" stroke-width="2" fill="none"/>
-        <line x1="55" y1="40" x2="80" y2="40" stroke="white" stroke-width="1"/>
+    <svg class="certificate-float cert-3" width="90" height="90" viewBox="0 0 100 100" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="20" width="80" height="50" rx="4" stroke="white" stroke-width="2" fill="none" />
+        <polyline points="30,40 35,45 45,35" stroke="white" stroke-width="2" fill="none" />
+        <line x1="55" y1="40" x2="80" y2="40" stroke="white" stroke-width="1" />
     </svg>
 
-    <svg class="certificate-float cert-4" width="75" height="75" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="20" y="25" width="60" height="40" rx="3" stroke="white" stroke-width="2" fill="none"/>
-        <circle cx="50" cy="45" r="8" stroke="white" stroke-width="2" fill="none"/>
-        <path d="M50 70 L45 80 L50 77 L55 80 Z" fill="white"/>
+    <svg class="certificate-float cert-4" width="75" height="75" viewBox="0 0 100 100" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="25" width="60" height="40" rx="3" stroke="white" stroke-width="2" fill="none" />
+        <circle cx="50" cy="45" r="8" stroke="white" stroke-width="2" fill="none" />
+        <path d="M50 70 L45 80 L50 77 L55 80 Z" fill="white" />
     </svg>
-
-    <!-- Navigation -->
     <nav>
         <a href="/" class="logo">
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CertGen Logo" class="logo-img"
@@ -508,14 +512,16 @@
                 <div class="info-content">
                     <div class="info-title">Quick Guide</div>
                     <div class="info-text">
-                        Fill in the event details below to generate personalized certificates. Choose the certificate type, event information, and coordinator names to create professional certificates for all participants.
+                        Fill in the event details below to generate personalized certificates. Choose the certificate
+                        type, event information, and coordinator names to create professional certificates for all
+                        participants.
                     </div>
                 </div>
             </div>
 
             <!-- Form -->
-            <form action="/generate-dynamic-certificates" method="POST" id="dynamicForm">
-                
+            <form action="/create-event" method="POST" id="dynamicForm">
+
                 <!-- Certificate Details Section -->
                 <div class="form-section">
                     <div class="section-header">
@@ -524,54 +530,28 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="cert_type">
-                            Certificate Type<span class="required">*</span>
-                        </label>
-                        <select name="cert_type" id="cert_type" required>
-                            <option value="">Select certificate type...</option>
-                            <option value="participation">🎯 Participation Certificate</option>
-                            <option value="presentation">📊 Presentation Certificate</option>
-                            <option value="best_paper">🏆 Best Paper Award</option>
+                        <label>Certificate Type <span class="required">*</span></label>
+                        <select name="cert_type" required>
+                            <option value="">Select certificate type</option>
+                            <option value="participation">Participation Certificate</option>
+                            <option value="presentation">Presentation Certificate</option>
+                            <option value="best_paper">Best Paper Award</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="program_name">
-                            Program / Event Name<span class="required">*</span>
-                        </label>
-                        <input 
-                            type="text" 
-                            name="program_name" 
-                            id="program_name"
-                            placeholder="e.g., International Conference on Computer Science 2026"
-                            required
-                        >
+                        <label>Program / Event Name <span class="required">*</span></label>
+                        <input type="text" name="program_name" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="organized_by">
-                            Organized By<span class="required">*</span>
-                        </label>
-                        <input 
-                            type="text" 
-                            name="organized_by" 
-                            id="organized_by"
-                            placeholder="e.g., Department of Computer Science"
-                            required
-                        >
+                        <label>Organized By <span class="required">*</span></label>
+                        <input type="text" name="organized_by" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="event_date">
-                            Event Date<span class="required">*</span>
-                        </label>
-                        <input 
-                            type="text" 
-                            name="event_date" 
-                            id="event_date"
-                            placeholder="e.g., January 15-17, 2026 or 15/01/2026"
-                            required
-                        >
+                        <label>Event Date <span class="required">*</span></label>
+                        <input type="text" name="event_date" required>
                     </div>
                 </div>
 
@@ -584,77 +564,59 @@
                         <h3 class="section-title">Event Coordinators</h3>
                     </div>
 
-                    <div class="coordinator-group">
-                        <div class="coordinator-item">
-                            <div class="coordinator-number">1</div>
-                            <div class="coordinator-input">
-                                <div class="form-group" style="margin-bottom: 0;">
-                                    <label for="coordinator1">
-                                        Coordinator 1<span class="required">*</span>
-                                    </label>
-                                    <input 
-                                        type="text" 
-                                        name="coordinators[]" 
-                                        id="coordinator1"
-                                        placeholder="Enter coordinator name"
-                                        required
-                                    >
-                                </div>
-                            </div>
+                    {% for i in range(1,4) %}
+                    <div class="coordinator-item">
+                        <div class="coordinator-number">{{ i }}</div>
+
+                        <!-- Designation Dropdown -->
+                        <div class="form-group">
+                            <label>Designation</label>
+                            <select name="coord_desig_{{ i }}" {% if i < 3 %}required{% endif %}>
+                                <option value="">Select Designation</option>
+                                <option value="Coordinator">Coordinator</option>
+                                <option value="Head of the Department">Head of the Department</option>
+                                <option value="Principal">Principal</option>
+                            </select>
                         </div>
 
-                        <div class="coordinator-item">
-                            <div class="coordinator-number">2</div>
-                            <div class="coordinator-input">
-                                <div class="form-group" style="margin-bottom: 0;">
-                                    <label for="coordinator2">
-                                        Coordinator 2<span class="required">*</span>
-                                    </label>
-                                    <input 
-                                        type="text" 
-                                        name="coordinators[]" 
-                                        id="coordinator2"
-                                        placeholder="Enter coordinator name"
-                                        required
-                                    >
-                                </div>
-                            </div>
+                        <!-- Name Dropdown -->
+                        <div class="form-group">
+                            <label>Name</label>
+                            <select name="coord_name_{{ i }}" {% if i < 3 %}required{% endif %}>
+                                <option value="">Select Name</option>
+                                <option value="Dr. Varghese K Cheriyan">Dr. Varghese K Cheriyan</option>
+                                <option value="Tiji Thomas">Tiji Thomas</option>
+                                <option value="Vidya">Vidya</option>
+                            </select>
                         </div>
 
-                        <div class="coordinator-item">
-                            <div class="coordinator-number">3</div>
-                            <div class="coordinator-input">
-                                <div class="form-group" style="margin-bottom: 0;">
-                                    <label for="coordinator3">
-                                        Coordinator 3<span class="optional">(optional)</span>
-                                    </label>
-                                    <input 
-                                        type="text" 
-                                        name="coordinators[]" 
-                                        id="coordinator3"
-                                        placeholder="Enter coordinator name (optional)"
-                                    >
-                                </div>
-                            </div>
+                        <!-- Signature Dropdown -->
+                        <div class="form-group">
+                            <label>Signature</label>
+                            <select name="coord_sign_{{ i }}" {% if i < 3 %}required{% endif %}>
+                                <option value="">Select Signature</option>
+                                {% for s in signatures %}
+                                <option value="{{ s }}">
+                                    {{ s.replace('_',' ').split('.')[0] }}
+                                </option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
 
                 <!-- Submit Section -->
                 <div class="submit-section">
-                    <button type="submit" class="submit-btn" id="submitBtn">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                        </svg>
-                        Generate Certificates
+                    <button type="submit" class="submit-btn">
+                        Create Event 
                     </button>
+
                     <a href="/" class="back-btn">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                        </svg>
                         Back to Home
                     </a>
                 </div>
+
             </form>
         </div>
     </div>
@@ -663,15 +625,15 @@
         // Theme Toggle Functionality
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
-        
+
         // Check for saved theme preference or default to 'dark'
         const currentTheme = localStorage.getItem('theme') || 'dark';
         html.setAttribute('data-theme', currentTheme);
-        
+
         themeToggle.addEventListener('click', () => {
             const theme = html.getAttribute('data-theme');
             const newTheme = theme === 'dark' ? 'light' : 'dark';
-            
+
             html.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
         });
@@ -680,7 +642,7 @@
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const floatElements = document.querySelectorAll('.floating-element');
-            
+
             floatElements.forEach((element, index) => {
                 const speed = 0.5 + (index * 0.1);
                 element.style.transform = `translateY(${scrolled * speed}px)`;
@@ -691,7 +653,7 @@
         const form = document.getElementById('dynamicForm');
         const submitBtn = document.getElementById('submitBtn');
 
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', function (e) {
             // Add loading state
             submitBtn.disabled = true;
             submitBtn.innerHTML = `
@@ -715,7 +677,7 @@
         // Form validation feedback
         const inputs = document.querySelectorAll('input[required], select[required], textarea[required]');
         inputs.forEach(input => {
-            input.addEventListener('blur', function() {
+            input.addEventListener('blur', function () {
                 if (this.value.trim() === '') {
                     this.style.borderColor = '#ff6b6b';
                 } else if (this.checkValidity()) {
@@ -725,7 +687,7 @@
                 }
             });
 
-            input.addEventListener('focus', function() {
+            input.addEventListener('focus', function () {
                 this.style.borderColor = 'var(--accent-pink)';
             });
         });
@@ -745,4 +707,5 @@
         });
     </script>
 </body>
+
 </html>
