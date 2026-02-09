@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ event_name }} - Data</title>
+</head>
+<body>
+
+<h2>{{ event_name }} - Student Data</h2>
+
+{% if data|length == 0 %}
+    <p>No students added yet.</p>
+{% else %}
+<table border="1" cellpadding="8">
+    <tr>
+        <th>S.No</th>
+        <th>Name</th>
+        <th>College</th>
+        <th>Action</th>
+    </tr>
+
+    {% for row in data %}
+    <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ row.name }}</td>
+        <td>{{ row.college }}</td>
+        <td>
+            <a href="/delete-student/{{ event_file }}/{{ loop.index0 }}"
+               onclick="return confirm('Delete this student?')">
+               ❌ Delete
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+<br>
+<a href="/events">⬅ Back to Events</a>
+
+</body>
+</html>

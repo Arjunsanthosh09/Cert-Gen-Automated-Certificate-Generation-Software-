@@ -1,21 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h2>Created Events</h2>
 
-<ul>
-  {% for e in events %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events</title>
+</head>
+
+<body>
+
+  <h2>Created Events</h2>
+
+  <ul>
+    {% for e in events %}
     <li>
       {{ e }}
-      <a href="/add-students/{{ e|replace(' ', '_') }}">Add Students</a> |
-      <a href="/download-certificates/{{ e|replace(' ', '_') }}">Download Certificates</a>
+      |
+      <a href="/add-student">Add Students</a>
+      |
+      <a href="/download-certificates/{{ e|replace(' ', '_') }}">
+        Download Certificates
+      </a>
+      |
+      <a href="/view-event/{{ e|replace(' ', '_') }}">View Data</a>
     </li>
-  {% endfor %}
-</ul>
+    {% endfor %}
+  </ul>
+
 </body>
+
 </html>

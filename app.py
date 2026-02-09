@@ -4,23 +4,35 @@ from reportlab.pdfbase.ttfonts import TTFont
 import json
 import os
 import zipfile
-
+from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.platypus import Paragraph, Frame
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_JUSTIFY
 import io 
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+from reportlab.platypus import Paragraph, Frame
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.enums import TA_JUSTIFY
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib.utils import ImageReader
+import uuid
 
 app = Flask(__name__)
 
 JSON_FILE = "students.json"
 WORKSHOP_JSON = "workshop.json"
 CONFERENCE_PART_JSON="confernceparticipant.json"
-
+OUTPUT_FOLDER = "generated"
+TEMPLATE = "templates/template.jpg"
 CERT_FOLDER = "certificates"
 ZIP_FILE = "certificates.zip"
 WORKSHOP_ZIP = "workshop_certificates.zip"
+
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 if not os.path.exists(CERT_FOLDER):
     os.makedirs(CERT_FOLDER)
@@ -619,6 +631,172 @@ def events():
     files = os.listdir("events/event_meta")
     events = [f.replace(".json", "").replace("_", " ") for f in files]
     return render_template("events.html", events=events)
+
+
+@app.route("/add-student")
+def add_student():
+    files = os.listdir("events/event_students")
+
+    events = []
+    for f in files:
+        if f.endswith("_students.json"):
+            events.append({
+                "display": f.replace("_students.json", "").replace("_", " "),
+                "file": f
+            })
+
+    return render_template("eventsinsertform.html", events=events)
+
+@app.route("/save-student", methods=["POST"])
+def save_student():
+    event_file = request.form.get("event_file")
+    path = f"events/event_students/{event_file}"
+
+    new_student = {
+        "name": request.form.get("name"),
+        "college": request.form.get("college")
+    }
+
+    with open(path, "r") as f:
+        students = json.load(f)
+
+    students.append(new_student)
+
+    with open(path, "w") as f:
+        json.dump(students, f, indent=4)
+
+    return redirect("/events")
+
+@app.route("/view-event/<event_name>")
+def view_event(event_name):
+    # event_name comes like: Advanced_Computing_&_Innovation_S
+    file_name = f"{event_name}_students.json"
+    path = f"events/event_students/{file_name}"
+
+    if not os.path.exists(path):
+        return "No data found"
+
+    with open(path, "r") as f:
+        data = json.load(f)
+
+    readable_name = event_name.replace("_", " ")
+
+    return render_template(
+        "view_event.html",
+        data=data,
+        event_name=readable_name,
+        event_file=file_name
+    )
+
+@app.route("/delete-student/<event_file>/<int:index>")
+def delete_student(event_file, index):
+    path = f"events/event_students/{event_file}"
+
+    with open(path, "r") as f:
+        students = json.load(f)
+
+    if 0 <= index < len(students):
+        students.pop(index)
+
+    with open(path, "w") as f:
+        json.dump(students, f, indent=4)
+
+    event_name = event_file.replace("_students.json", "")
+    return redirect(f"/view-event/{event_name}")
+
+
+@app.route("/download-certificates/<event_name>")
+def download_certificates(event_name):
+
+    meta_path = f"events/event_meta/{event_name}.json"
+    students_path = f"events/event_students/{event_name}_students.json"
+
+    if not os.path.exists(meta_path) or not os.path.exists(students_path):
+        return "Event data not found"
+
+    with open(meta_path, "r") as f:
+        event = json.load(f)
+
+    with open(students_path, "r") as f:
+        students = json.load(f)
+
+    if not students:
+        return "No students available"
+
+    zip_path = f"certificates/{event_name}_certificates.zip"
+
+    with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
+
+        for student in students:
+            safe_name = student["name"].replace(" ", "_")
+            pdf_path = f"generated/{safe_name}.pdf"
+
+            c = canvas.Canvas(pdf_path, pagesize=A4)
+            width, height = A4
+
+            # ================= TEMPLATE =================
+            c.drawImage("template.jpg", 0, 0, width, height)
+
+            # ================= STUDENT NAME =================
+            c.setFont("Times-Bold", 18)
+            c.drawCentredString(width / 2, 410, student["name"])
+
+            # ================= PARAGRAPH TEXT =================
+            style = ParagraphStyle(
+                name="CertText",
+                fontName="Times-Roman",
+                fontSize=14,
+                leading=20,
+                alignment=TA_JUSTIFY
+            )
+
+            paragraph_text = f"""
+            of <b>{student['college']}</b> has successfully participated in
+            <b>{event['program_name']}</b> organised by
+            <b>{event['organized_by']}</b> on
+            <b>{event['event_date']}</b>.
+            """
+
+            frame = Frame(
+                x1=90,
+                y1=190,
+                width=width - 180,
+                height=200,
+                showBoundary=0
+            )
+
+            frame.addFromList([Paragraph(paragraph_text, style)], c)
+
+            # ================= SIGNATURES =================
+            sig_y = 130
+            start_x = 100
+            gap = (width - 200) / len(event["coordinators"])
+
+            for i, coord in enumerate(event["coordinators"]):
+                x = start_x + i * gap
+
+                if os.path.exists(coord["signature"]):
+                    c.drawImage(
+                        coord["signature"],
+                        x,
+                        sig_y + 25,
+                        width=110,
+                        height=40,
+                        mask="auto"
+                    )
+
+                c.setFont("Times-Bold", 10)
+                c.drawCentredString(x + 55, sig_y, coord["designation"])
+
+                c.setFont("Times-Roman", 9)
+                c.drawCentredString(x + 55, sig_y - 14, f"({coord['name']})")
+
+            c.save()
+
+            zipf.write(pdf_path, f"{safe_name}.pdf")
+            os.remove(pdf_path)
+
+    return send_file(zip_path, as_attachment=True)
 
 if __name__ == "__main__":
     app.run(debug=True)

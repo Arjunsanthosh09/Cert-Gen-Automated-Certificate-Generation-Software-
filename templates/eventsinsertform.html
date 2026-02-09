@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Student</title>
+</head>
+<body>
+
+<h2>Add Student to Event</h2>
+
+<form action="/save-student" method="POST">
+
+    <!-- Select Event -->
+    <label>Select Event</label><br>
+    <select name="event_file" required>
+        <option value="">-- Select Event --</option>
+        {% for e in events %}
+            <option value="{{ e.file }}">{{ e.display }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <!-- Student Details -->
+    <input type="text" name="name" placeholder="Student Name" required><br><br>
+    <input type="text" name="college" placeholder="College Name" required><br><br>
+
+    <button type="submit">Add Student</button>
+
+</form>
+
+</body>
+</html>
