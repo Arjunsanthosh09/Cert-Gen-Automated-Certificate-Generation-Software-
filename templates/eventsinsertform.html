@@ -1,30 +1,654 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Add Student</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student - CertGen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Add Student Page Specific Styles */
+        .add-student-container {
+            max-width: 800px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .add-student-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        [data-theme="light"] .add-student-card {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .form-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: 0 10px 30px rgba(255, 0, 128, 0.3);
+        }
+
+        .form-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(0, 212, 255, 0.1);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 1.2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        [data-theme="light"] .info-box {
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .info-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .info-content {
+            flex: 1;
+        }
+
+        .info-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .info-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Form Sections */
+        .form-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-icon {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .form-group label .required {
+            color: var(--accent-pink);
+            margin-left: 0.25rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-pink);
+            box-shadow: 0 0 0 3px rgba(255, 0, 128, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 3rem;
+        }
+
+        [data-theme="light"] .form-group select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+        }
+
+        /* Event Select with Icon */
+        .event-select-wrapper {
+            position: relative;
+        }
+
+        .event-select-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+
+        .event-select-wrapper select {
+            padding-left: 3rem;
+        }
+
+        /* Student Details */
+        .student-details {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        /* Submit Section */
+        .submit-section {
+            margin-top: 3rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .submit-btn {
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 25px rgba(255, 0, 128, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 35px rgba(255, 0, 128, 0.5);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .submit-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .back-btn {
+            padding: 1rem 2rem;
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .back-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Form Validation */
+        .form-group input:invalid:not(:placeholder-shown),
+        .form-group select:invalid:not([value=""]) {
+            border-color: #ff6b6b;
+        }
+
+        .form-group input:valid:not(:placeholder-shown) {
+            border-color: #51cf66;
+        }
+
+        /* Input Icons */
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+
+        .input-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .input-wrapper input {
+            padding-left: 3rem;
+        }
+
+        /* Success Animation */
+        @keyframes successPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .submit-btn.success {
+            background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);
+            animation: successPulse 0.5s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .add-student-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .form-title {
+                font-size: 2rem;
+            }
+
+            .submit-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .submit-btn,
+            .back-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Floating Background Elements -->
+    <div class="floating-element float-1"></div>
+    <div class="floating-element float-2"></div>
+    <div class="floating-element float-3"></div>
 
-<h2>Add Student to Event</h2>
+    <!-- Certificate Floating Icons -->
+    <svg class="certificate-float cert-1" width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="10" width="80" height="60" rx="4" stroke="white" stroke-width="2" fill="none"/>
+        <line x1="20" y1="30" x2="60" y2="30" stroke="white" stroke-width="2"/>
+        <line x1="20" y1="40" x2="80" y2="40" stroke="white" stroke-width="1"/>
+        <line x1="20" y1="50" x2="70" y2="50" stroke="white" stroke-width="1"/>
+        <circle cx="80" cy="70" r="15" fill="white" opacity="0.3"/>
+    </svg>
 
-<form action="/save-student" method="POST">
+    <svg class="certificate-float cert-2" width="70" height="70" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="15" y="15" width="70" height="50" rx="3" stroke="white" stroke-width="2" fill="none"/>
+        <path d="M50 35 L55 45 L45 45 Z" fill="white"/>
+        <circle cx="50" cy="55" r="3" fill="white"/>
+    </svg>
 
-    <!-- Select Event -->
-    <label>Select Event</label><br>
-    <select name="event_file" required>
-        <option value="">-- Select Event --</option>
-        {% for e in events %}
-            <option value="{{ e.file }}">{{ e.display }}</option>
-        {% endfor %}
-    </select><br><br>
+    <svg class="certificate-float cert-3" width="90" height="90" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="20" width="80" height="50" rx="4" stroke="white" stroke-width="2" fill="none"/>
+        <polyline points="30,40 35,45 45,35" stroke="white" stroke-width="2" fill="none"/>
+        <line x1="55" y1="40" x2="80" y2="40" stroke="white" stroke-width="1"/>
+    </svg>
 
-    <!-- Student Details -->
-    <input type="text" name="name" placeholder="Student Name" required><br><br>
-    <input type="text" name="college" placeholder="College Name" required><br><br>
+    <svg class="certificate-float cert-4" width="75" height="75" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="25" width="60" height="40" rx="3" stroke="white" stroke-width="2" fill="none"/>
+        <circle cx="50" cy="45" r="8" stroke="white" stroke-width="2" fill="none"/>
+        <path d="M50 70 L45 80 L50 77 L55 80 Z" fill="white"/>
+    </svg>
 
-    <button type="submit">Add Student</button>
+    <!-- Navigation -->
+   <nav>
+        <a href="/" class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CertGen Logo" class="logo-img"
+                width="15%" height="30%">
 
-</form>
+        </a>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Dynamic Certificate creation▾</a>
+                    <ul class="dropdown-menu">
+                         <li><a href="/dynamic_event_cert">Event certificate </a></li>
+                        <li><a href="/events">Generate Event Certificate</a></li>
+                    </ul>
+                </li>
+               
 
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Add Students ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/form">Conference presentation</a></li>
+                        <li><a href="/conferenceparticipation">Conference particiapation</a></li>
+                        <li><a href="/workshopform">Workshop Students</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Generate certificate ▾</a>
+
+                    <ul class="dropdown-menu">
+                        <li><a href="/generate-page">Conference Certificate(BWD) </a></li>
+                        <li><a href="/conferencealldownload">Conference Certificate(ALL) </a></li>
+                        <li><a href="/workshop-page">Workshop Certificate</a></li>
+                        <li><a href="/workshop-students">Workshop Batch wise Certificate</a></li>
+
+                    </ul>
+                </li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <svg class="theme-icon sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5" stroke-width="2" />
+                    <line x1="12" y1="1" x2="12" y2="3" stroke-width="2" />
+                    <line x1="12" y1="21" x2="12" y2="23" stroke-width="2" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke-width="2" />
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke-width="2" />
+                    <line x1="1" y1="12" x2="3" y2="12" stroke-width="2" />
+                    <line x1="21" y1="12" x2="23" y2="12" stroke-width="2" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke-width="2" />
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke-width="2" />
+                </svg>
+                <svg class="theme-icon moon-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Add Student Container -->
+    <div class="add-student-container">
+        <div class="add-student-card">
+            <!-- Header -->
+            <div class="form-header">
+                <div class="form-icon">👤</div>
+                <h2 class="form-title">Add Student to Event</h2>
+                <p class="form-subtitle">Register a new student participant for certificate generation</p>
+            </div>
+
+            <!-- Info Box -->
+            <div class="info-box">
+                <div class="info-icon">💡</div>
+                <div class="info-content">
+                    <div class="info-title">Quick Tip</div>
+                    <div class="info-text">
+                        Select the event you want to add the student to, then fill in their details. Make sure all information is accurate for certificate generation.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <form action="/save-student" method="POST" id="addStudentForm">
+                
+                <!-- Event Selection Section -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <div class="section-icon">📅</div>
+                        <h3 class="section-title">Select Event</h3>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="event_file">
+                            Event<span class="required">*</span>
+                        </label>
+                        <div class="event-select-wrapper">
+                            <div class="event-select-icon">🎓</div>
+                            <select name="event_file" id="event_file" required>
+                                <option value="">-- Select Event --</option>
+                                {% for e in events %}
+                                    <option value="{{ e.file }}">{{ e.display }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Student Details Section -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <div class="section-icon">👤</div>
+                        <h3 class="section-title">Student Details</h3>
+                    </div>
+
+                    <div class="student-details">
+                        <div class="form-group">
+                            <label for="name">
+                                Student Name<span class="required">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <div class="input-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                    </svg>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    name="name" 
+                                    id="name"
+                                    placeholder="Enter student full name"
+                                    required
+                                    minlength="2"
+                                    maxlength="100"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="college">
+                                College Name<span class="required">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <div class="input-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                    </svg>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    name="college" 
+                                    id="college"
+                                    placeholder="Enter college or institution name"
+                                    required
+                                    minlength="2"
+                                    maxlength="150"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Section -->
+                <div class="submit-section">
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                        </svg>
+                        Add Student
+                    </button>
+                    <a href="/events" class="back-btn">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                        Back to Events
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        // Check for saved theme preference or default to 'dark'
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', currentTheme);
+        
+        themeToggle.addEventListener('click', () => {
+            const theme = html.getAttribute('data-theme');
+            const newTheme = theme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Parallax effect for floating elements
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const floatElements = document.querySelectorAll('.floating-element');
+            
+            floatElements.forEach((element, index) => {
+                const speed = 0.5 + (index * 0.1);
+                element.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Form submission handling
+        const form = document.getElementById('addStudentForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', function(e) {
+            // Add loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="animation: spin 1s linear infinite;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                </svg>
+                Adding Student...
+            `;
+        });
+
+        // Add spin animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Form validation feedback
+        const inputs = document.querySelectorAll('input[required], select[required]');
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.value.trim() === '') {
+                    this.style.borderColor = '#ff6b6b';
+                } else if (this.checkValidity()) {
+                    this.style.borderColor = '#51cf66';
+                } else {
+                    this.style.borderColor = '#ff6b6b';
+                }
+            });
+
+            input.addEventListener('focus', function() {
+                this.style.borderColor = 'var(--accent-pink)';
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="/#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href').substring(1));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>

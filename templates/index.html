@@ -43,7 +43,7 @@
         <path d="M50 70 L45 80 L50 77 L55 80 Z" fill="white" />
     </svg>
 
-    <nav>
+   <nav>
         <a href="/" class="logo">
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CertGen Logo" class="logo-img"
                 width="15%" height="30%">
@@ -51,9 +51,14 @@
         </a>
         <div class="nav-right">
             <ul class="nav-links">
-                <li><a href="#overview">Overview</a></li>
-                <li><a href="#process">Process</a></li>
-                <li><a href="/dynamic_event_cert">Event certificate </a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Dynamic Certificate creation▾</a>
+                    <ul class="dropdown-menu">
+                         <li><a href="/dynamic_event_cert">Event certificate </a></li>
+                        <li><a href="/events">Generate Event Certificate</a></li>
+                    </ul>
+                </li>
+               
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle">Add Students ▾</a>

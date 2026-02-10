@@ -626,6 +626,7 @@ def create_event():
     return redirect("/events")
 
 #dynamic event gneration view and add students and download certficate
+
 @app.route("/events")
 def events():
     files = os.listdir("events/event_meta")
@@ -669,7 +670,6 @@ def save_student():
 
 @app.route("/view-event/<event_name>")
 def view_event(event_name):
-    # event_name comes like: Advanced_Computing_&_Innovation_S
     file_name = f"{event_name}_students.json"
     path = f"events/event_students/{file_name}"
 
@@ -704,7 +704,6 @@ def delete_student(event_file, index):
     event_name = event_file.replace("_students.json", "")
     return redirect(f"/view-event/{event_name}")
 
-
 @app.route("/download-certificates/<event_name>")
 def download_certificates(event_name):
 
@@ -712,7 +711,7 @@ def download_certificates(event_name):
     students_path = f"events/event_students/{event_name}_students.json"
 
     if not os.path.exists(meta_path) or not os.path.exists(students_path):
-        return "Event data not found"
+        return "Event data not found", 404
 
     with open(meta_path, "r") as f:
         event = json.load(f)
@@ -721,7 +720,10 @@ def download_certificates(event_name):
         students = json.load(f)
 
     if not students:
-        return "No students available"
+        return "No students available", 400
+
+    os.makedirs("generated", exist_ok=True)
+    os.makedirs("certificates", exist_ok=True)
 
     zip_path = f"certificates/{event_name}_certificates.zip"
 
@@ -734,19 +736,21 @@ def download_certificates(event_name):
             c = canvas.Canvas(pdf_path, pagesize=A4)
             width, height = A4
 
-            # ================= TEMPLATE =================
             c.drawImage("template.jpg", 0, 0, width, height)
 
-            # ================= STUDENT NAME =================
-            c.setFont("Times-Bold", 18)
-            c.drawCentredString(width / 2, 410, student["name"])
+            cert_type = event.get("certificate_type", "PARTICIPATION CERTIFICATE")
 
-            # ================= PARAGRAPH TEXT =================
+            c.setFont("CasusPro-Bold", 17)
+            c.drawCentredString(width / 2, 485, cert_type)
+
+            c.setFont("CasusPro-Bold", 16)
+            c.drawCentredString(width / 2, 409, student["name"])
+
             style = ParagraphStyle(
                 name="CertText",
-                fontName="Times-Roman",
-                fontSize=14,
-                leading=20,
+                fontName="CasusPro",
+                fontSize=16,
+                leading=24,
                 alignment=TA_JUSTIFY
             )
 
@@ -761,35 +765,31 @@ def download_certificates(event_name):
                 x1=90,
                 y1=190,
                 width=width - 180,
-                height=200,
+                height=190,
                 showBoundary=0
             )
 
             frame.addFromList([Paragraph(paragraph_text, style)], c)
-
-            # ================= SIGNATURES =================
-            sig_y = 130
-            start_x = 100
-            gap = (width - 200) / len(event["coordinators"])
+            sig_y = 90
+            start_x = 60
+            gap = (width - 100) / len(event["coordinators"])
 
             for i, coord in enumerate(event["coordinators"]):
-                x = start_x + i * gap
-
+                x = start_x + i * gap  
                 if os.path.exists(coord["signature"]):
                     c.drawImage(
                         coord["signature"],
                         x,
-                        sig_y + 25,
-                        width=110,
-                        height=40,
+                        sig_y + 60,
+                        width=120,
+                        height=45,
                         mask="auto"
                     )
 
-                c.setFont("Times-Bold", 10)
-                c.drawCentredString(x + 55, sig_y, coord["designation"])
-
-                c.setFont("Times-Roman", 9)
-                c.drawCentredString(x + 55, sig_y - 14, f"({coord['name']})")
+                c.setFont("CasusPro-Bold", 12)
+                c.drawCentredString(x + 50, sig_y + 20, coord["designation"])
+                c.setFont("CasusPro-Bold", 12)
+                c.drawCentredString(x + 53, sig_y+5, f"({coord['name']})")
 
             c.save()
 

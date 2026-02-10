@@ -1,41 +1,653 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>{{ event_name }} - Data</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ event_name }} - CertGen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Event Data Page Specific Styles */
+        .event-data-container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .event-data-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        [data-theme="light"] .event-data-card {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header */
+        .data-header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .event-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(255, 0, 128, 0.3);
+        }
+
+        .data-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            word-break: break-word;
+        }
+
+        .data-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .student-count {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+        }
+
+        .count-number {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        /* Table Container */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 15px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
+        }
+
+        th {
+            padding: 1.2rem 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            color: white;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        th:first-child {
+            border-top-left-radius: 15px;
+            text-align: center;
+            width: 80px;
+        }
+
+        th:last-child {
+            border-top-right-radius: 15px;
+            text-align: center;
+            width: 120px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background: var(--bg-card);
+            transform: scale(1.01);
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        td {
+            padding: 1.2rem 1.5rem;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        td:first-child {
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Serial Number Badge */
+        .serial-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
+            color: white;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Student Name */
+        .student-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* College Name */
+        .college-name {
+            color: var(--text-secondary);
+        }
+
+        /* Delete Button */
+        .delete-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: transparent;
+            color: #ff6b6b;
+            border: 2px solid #ff6b6b;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background: #ff6b6b;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .empty-state svg {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 2rem;
+            opacity: 0.5;
+            color: var(--text-secondary);
+        }
+
+        .empty-state h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .empty-state-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
+            color: white;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 0, 128, 0.3);
+        }
+
+        .empty-state-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 0, 128, 0.5);
+        }
+
+        /* Action Buttons */
+        .action-section {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+            color: white;
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.5);
+        }
+
+        .btn-back {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-back:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        /* Delete Confirmation Modal Styling */
+        .delete-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Stats Summary */
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-pink);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Row Animation */
+        tbody tr {
+            opacity: 0;
+            animation: fadeInRow 0.5s ease forwards;
+        }
+
+        tbody tr:nth-child(1) { animation-delay: 0.1s; }
+        tbody tr:nth-child(2) { animation-delay: 0.15s; }
+        tbody tr:nth-child(3) { animation-delay: 0.2s; }
+        tbody tr:nth-child(4) { animation-delay: 0.25s; }
+        tbody tr:nth-child(5) { animation-delay: 0.3s; }
+        tbody tr:nth-child(6) { animation-delay: 0.35s; }
+
+        @keyframes fadeInRow {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .event-data-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .data-title {
+                font-size: 2rem;
+            }
+
+            th, td {
+                padding: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .serial-badge {
+                width: 30px;
+                height: 30px;
+                font-size: 0.8rem;
+            }
+
+            .action-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .stats-summary {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .table-container {
+                border-radius: 10px;
+            }
+
+            th, td {
+                padding: 0.8rem 0.5rem;
+            }
+
+            .delete-btn {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Floating Background Elements -->
+    <div class="floating-element float-1"></div>
+    <div class="floating-element float-2"></div>
+    <div class="floating-element float-3"></div>
 
-<h2>{{ event_name }} - Student Data</h2>
+    <!-- Certificate Floating Icons -->
+    <svg class="certificate-float cert-1" width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="10" width="80" height="60" rx="4" stroke="white" stroke-width="2" fill="none"/>
+        <line x1="20" y1="30" x2="60" y2="30" stroke="white" stroke-width="2"/>
+        <line x1="20" y1="40" x2="80" y2="40" stroke="white" stroke-width="1"/>
+        <line x1="20" y1="50" x2="70" y2="50" stroke="white" stroke-width="1"/>
+        <circle cx="80" cy="70" r="15" fill="white" opacity="0.3"/>
+    </svg>
 
-{% if data|length == 0 %}
-    <p>No students added yet.</p>
-{% else %}
-<table border="1" cellpadding="8">
-    <tr>
-        <th>S.No</th>
-        <th>Name</th>
-        <th>College</th>
-        <th>Action</th>
-    </tr>
+    <svg class="certificate-float cert-2" width="70" height="70" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="15" y="15" width="70" height="50" rx="3" stroke="white" stroke-width="2" fill="none"/>
+        <path d="M50 35 L55 45 L45 45 Z" fill="white"/>
+        <circle cx="50" cy="55" r="3" fill="white"/>
+    </svg>
 
-    {% for row in data %}
-    <tr>
-        <td>{{ loop.index }}</td>
-        <td>{{ row.name }}</td>
-        <td>{{ row.college }}</td>
-        <td>
-            <a href="/delete-student/{{ event_file }}/{{ loop.index0 }}"
-               onclick="return confirm('Delete this student?')">
-               ❌ Delete
-            </a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-{% endif %}
+    <svg class="certificate-float cert-3" width="90" height="90" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="20" width="80" height="50" rx="4" stroke="white" stroke-width="2" fill="none"/>
+        <polyline points="30,40 35,45 45,35" stroke="white" stroke-width="2" fill="none"/>
+        <line x1="55" y1="40" x2="80" y2="40" stroke="white" stroke-width="1"/>
+    </svg>
 
-<br>
-<a href="/events">⬅ Back to Events</a>
+    <svg class="certificate-float cert-4" width="75" height="75" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="25" width="60" height="40" rx="3" stroke="white" stroke-width="2" fill="none"/>
+        <circle cx="50" cy="45" r="8" stroke="white" stroke-width="2" fill="none"/>
+        <path d="M50 70 L45 80 L50 77 L55 80 Z" fill="white"/>
+    </svg>
 
+    <!-- Navigation -->
+    <nav>
+        <a href="/" class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CertGen Logo" class="logo-img"
+                width="15%" height="30%">
+
+        </a>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Dynamic Certificate creation▾</a>
+                    <ul class="dropdown-menu">
+                         <li><a href="/dynamic_event_cert">Event certificate </a></li>
+                        <li><a href="/events">Generate Event Certificate</a></li>
+                    </ul>
+                </li>
+               
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Add Students ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/form">Conference presentation</a></li>
+                        <li><a href="/conferenceparticipation">Conference particiapation</a></li>
+                        <li><a href="/workshopform">Workshop Students</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Generate certificate ▾</a>
+
+                    <ul class="dropdown-menu">
+                        <li><a href="/generate-page">Conference Certificate(BWD) </a></li>
+                        <li><a href="/conferencealldownload">Conference Certificate(ALL) </a></li>
+                        <li><a href="/workshop-page">Workshop Certificate</a></li>
+                        <li><a href="/workshop-students">Workshop Batch wise Certificate</a></li>
+
+                    </ul>
+                </li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <svg class="theme-icon sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5" stroke-width="2" />
+                    <line x1="12" y1="1" x2="12" y2="3" stroke-width="2" />
+                    <line x1="12" y1="21" x2="12" y2="23" stroke-width="2" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke-width="2" />
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke-width="2" />
+                    <line x1="1" y1="12" x2="3" y2="12" stroke-width="2" />
+                    <line x1="21" y1="12" x2="23" y2="12" stroke-width="2" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke-width="2" />
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke-width="2" />
+                </svg>
+                <svg class="theme-icon moon-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Event Data Container -->
+    <div class="event-data-container">
+        <div class="event-data-card">
+            <!-- Header -->
+            <div class="data-header">
+                <div class="event-badge">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                    </svg>
+                    Event Data
+                </div>
+                <h2 class="data-title">{{ event_name }}</h2>
+                <p class="data-subtitle">Student participants registered for this event</p>
+                {% if data|length > 0 %}
+                <div class="student-count">
+                    Total Students: <span class="count-number">{{ data|length }}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            {% if data|length == 0 %}
+                <!-- Empty State -->
+                <div class="empty-state">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                    <h3>No Students Yet</h3>
+                    <p>No students have been added to this event. Start by adding your first participant.</p>
+                    <a href="/add-student" class="empty-state-btn">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                        </svg>
+                        Add First Student
+                    </a>
+                </div>
+            {% else %}
+                <!-- Table -->
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Name</th>
+                                <th>College</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in data %}
+                            <tr>
+                                <td>
+                                    <div class="serial-badge">{{ loop.index }}</div>
+                                </td>
+                                <td>
+                                    <span class="student-name">{{ row.name }}</span>
+                                </td>
+                                <td>
+                                    <span class="college-name">{{ row.college }}</span>
+                                </td>
+                                <td style="text-align: center;">
+                                    <a href="/delete-student/{{ event_file }}/{{ loop.index0 }}"
+                                       class="delete-btn"
+                                       onclick="return confirm('Are you sure you want to delete {{ row.name }}?')">
+                                        ❌ Delete
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+
+            <!-- Action Buttons -->
+            <div class="action-section">
+                {% if data|length > 0 %}
+                <a href="/add-student" class="action-btn btn-add">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                    </svg>
+                    Add More Students
+                </a>
+                {% endif %}
+                <a href="/events" class="action-btn btn-back">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    Back to Events
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        // Check for saved theme preference or default to 'dark'
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', currentTheme);
+        
+        themeToggle.addEventListener('click', () => {
+            const theme = html.getAttribute('data-theme');
+            const newTheme = theme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Parallax effect for floating elements
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const floatElements = document.querySelectorAll('.floating-element');
+            
+            floatElements.forEach((element, index) => {
+                const speed = 0.5 + (index * 0.1);
+                element.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="/#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href').substring(1));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Enhanced delete confirmation
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                // Custom styling for the confirm dialog would go here
+                // For now, using native confirm
+            });
+        });
+    </script>
 </body>
 </html>
