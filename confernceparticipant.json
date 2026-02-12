@@ -1,302 +1,232 @@
 [
     {
-        "name": "Arjun Santhosh",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Cross Platform Innovation",
-        "email": "arjun.santhosh@example.com"
+        "name": "Adithya Ashok",
+        "college": "Amrita Vishwa Vidyapeetam",
+        "paper_title": "Digital Twins for Smart Cities: A Unified Human-Centric Theoretical Framework"
     },
     {
-        "name": "Anjali Menon",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "AI in Business",
-        "email": "anjali.menon@example.com"
+        "name": "CHAYTHANYA K As",
+        "college": "Nilgiri college of arts and science, Thaloor",
+        "paper_title": "THE ROLE OF AI IN HUMANOID ROBOTS"
     },
     {
-        "name": "Rahul Krishnan",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Blockchain Applications",
-        "email": "rahul.krishnan@example.com"
+        "name": "Devananda C R",
+        "college": "Amrita Vishwa Vidyapeetham",
+        "paper_title": "Digital Twins for Smart Cities: A Unified Human-Centric Theoretical Framework"
     },
     {
-        "name": "Sneha Nair",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Cloud Computing Trends",
-        "email": "sneha.nair@example.com"
+        "name": "Devikakrishna",
+        "college": "St Aloysius College, Edathua, Alappuzha",
+        "paper_title": "ACCEPTANCE AND USES OF GEN-Z REGARDING AI APPLICATION IN HIGHER EDUCATION"
     },
     {
-        "name": "Abhinav Kumar",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Cyber Security Models",
-        "email": "abhinav.kumar@example.com"
+        "name": "Dona Varghese",
+        "college": "St Aloysius College, Edathua, Alappuzha",
+        "paper_title": "ACCEPTANCE AND USES OF GEN-Z REGARDING AI APPLICATION IN HIGHER EDUCATION"
     },
     {
-        "name": "Priya Suresh",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Data Analytics in Finance",
-        "email": "priya.suresh@example.com"
+        "name": "Gouthami VS",
+        "college": "Nilgiri College of Arts and Science",
+        "paper_title": "Research paper on Smart Glasses for visually impaired"
     },
     {
-        "name": "Akash R",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Digital Transformation",
-        "email": "akash.r@example.com"
+        "name": "Harinanda Jain KR",
+        "college": "Nilgiri College of Arts and Science",
+        "paper_title": "Research paper on Artificial Intelligence"
     },
     {
-        "name": "Meera Joseph",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "E-Governance Systems",
-        "email": "meera.joseph@example.com"
+        "name": "Isha Bilna V",
+        "college": "Nilgiri college of Arts and Science ( Autonomous)",
+        "paper_title": "Research paper on Artificial Intelligence"
     },
     {
-        "name": "Vishnu Prasad",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Green Computing",
-        "email": "vishnu.prasad@example.com"
+        "name": "JASMIN",
+        "college": "NILGIRI COLLEGE OF ARTS AND SCIENCE",
+        "paper_title": "DATA TO DECISION"
     },
     {
-        "name": "Neha Sharma",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Human Computer Interaction",
-        "email": "neha.sharma@example.com"
+        "name": "LALPRASAD R",
+        "college": "Nilgiri College of Arts and Science",
+        "paper_title": "AI THAT FEELS \u2013 SMART WEARABLES FOR HEALTH PREDICTION"
     },
     {
-        "name": "Rohit Nair",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "IoT in Smart Cities",
-        "email": "rohit.nair@example.com"
+        "name": "Rugminidevi S",
+        "college": "Amrita Vishwa Vidyapeetham,Amritapuri",
+        "paper_title": "Digital Twins for Smart Cities: A Unified Human-Centric Theoretical Framework"
     },
     {
-        "name": "Kavya Mohan",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Machine Learning Models",
-        "email": "kavya.mohan@example.com"
+        "name": "SANJAY C",
+        "college": "Nilgiri collage of arts and science",
+        "paper_title": "AI THAT FEELS \u2013 SMART WEARABLES FOR HEALTH PREDICTION"
     },
     {
-        "name": "Aditya Raj",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Neural Networks",
-        "email": "aditya.raj@example.com"
+        "name": "Santhra S",
+        "college": "Nilgiri College of Arts and Science",
+        "paper_title": "The Quantum Paradigm Shift: Impact on Modern Cryptography and the Path to Post-Quantum Resilience."
     },
     {
-        "name": "Anoop Thomas",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Open Source Technologies",
-        "email": "anoop.thomas@example.com"
+        "name": "Shahana sherin",
+        "college": "Nilgiri College of Arts and Science",
+        "paper_title": "Computational biology"
     },
     {
-        "name": "Pooja Verma",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Predictive Analytics",
-        "email": "pooja.verma@example.com"
+        "name": "Sumathi.N",
+        "college": "Nilgiri college of arts and science",
+        "paper_title": "Computational biology"
     },
     {
-        "name": "Sreeram K",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Quantum Computing",
-        "email": "sreeram.k@example.com"
+        "name": "Ziya fathima tk",
+        "college": "Nilgiri College of Arts and Science (Autonomous)",
+        "paper_title": "Research paper on Smart Glasses for visually impaired"
     },
     {
-        "name": "Riya Gupta",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Robotic Process Automation",
-        "email": "riya.gupta@example.com"
+        "name": "Anisa parveen s",
+        "college": "Nilgiri college of arts and science thaloor",
+        "paper_title": "From Data to Decision "
     },
     {
-        "name": "Nithin Varghese",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Software Testing Strategies",
-        "email": "nithin.varghese@example.com"
+        "name": "N J HANNAH JAS",
+        "college": "NILGIRI COLLEGE OF ARTS AND SCIENCE,THALOOR",
+        "paper_title": "The role of ai in humanoid robotics"
     },
     {
-        "name": "Swathi R",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "UI UX Design",
-        "email": "swathi.r@example.com"
+        "name": "Shifana M",
+        "college": "Nilgiri college of arts and science ",
+        "paper_title": "Cryptographic system in the era of quantum computing "
     },
     {
-        "name": "Karthik S",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Virtual Reality",
-        "email": "karthik.s@example.com"
+        "name": "Ajith G S",
+        "college": "Amaljyothi College of engineering",
+        "paper_title": "IoT- and AI-Based Urban Air Quality Prediction"
     },
     {
-        "name": "Aishwarya N",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Web 3.0 Technologies",
-        "email": "aishwarya.n@example.com"
+        "name": "Annmary Sunny",
+        "college": "Chinmaya Vishwa Vidyapeeth",
+        "paper_title": "Swarm Intelligence-Based Optimization of IoT Networks for Smart Campus Energy Management\r\n"
     },
     {
-        "name": "Deepak Kumar",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Edge Computing",
-        "email": "deepak.kumar@example.com"
+        "name": "Anuja G Krishnan",
+        "college": "Chinmaya Vishwa Vidyapeeth, Piravom",
+        "paper_title": "Smart Diagnosis of Multiple Myeloma Using AI: Comparing Deep Learning and Machine Learning Approaches"
     },
     {
-        "name": "Anjana S",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Big Data Frameworks",
-        "email": "anjana.s@example.com"
+        "name": "Anusree P.P",
+        "college": "Providence college for Women,Coonoor",
+        "paper_title": "Advances in Deep Neural Networks for Memory Structure Segmentation in the Brain"
     },
     {
-        "name": "Rahul Das",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "DevOps Automation",
-        "email": "rahul.das@example.com"
+        "name": "Athira Ashok",
+        "college": "Chinmaya Vishwa Vidyapeeth",
+        "paper_title": "Intelliguide Pro: A Smart Walking Stick for Visually Impaired"
     },
     {
-        "name": "Athira Mohan",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Ethical Hacking",
-        "email": "athira.mohan@example.com"
+        "name": "Bhanupriya C K",
+        "college": "MITS Andhrapradesh",
+        "paper_title": "Injective coloring and injective edge coloring of product graphs."
     },
     {
-        "name": "Gokul Krishna",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "FinTech Innovations",
-        "email": "gokul.krishna@example.com"
+        "name": "Cina Mathew",
+        "college": "Kristu Jyoti college",
+        "paper_title": "Federated machine learning"
     },
     {
-        "name": "Shreya Iyer",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Game Development",
-        "email": "shreya.iyer@example.com"
+        "name": "Dr Bibin Mathew",
+        "college": "MITS Deemed to be University Madanapalle",
+        "paper_title": "A Dynamic Extension of Rough Graph Models via Vertex Transfer Mechanisms\r\n"
     },
     {
-        "name": "Manu Mathew",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Hybrid Cloud Models",
-        "email": "manu.mathew@example.com"
+        "name": "Dr. Muthukumar P",
+        "college": "Nilgiri College of Arts and Science(Autonomous)",
+        "paper_title": "ROBOT MOTION PLANNING USING RRT AND OPTIMIZATION TECHNIQUES\r\n"
     },
     {
-        "name": "Sidharth Pillai",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Intelligent Systems",
-        "email": "sidharth.pillai@example.com"
+        "name": "Dr. N Anandakrishnan",
+        "college": "Nilgiri College of Arts and Science",
+        "paper_title": "An Analytical Assessment of AI-Based Machine Learning Models for Lung Cancer Prediction\r\n"
     },
     {
-        "name": "Nayana Raj",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Knowledge Engineering",
-        "email": "nayana.raj@example.com"
+        "name": "Dr.Archana M S",
+        "college": "Nilgiri College of Arts and Science,Thaloor",
+        "paper_title": "A Hybrid EfficientNetV2-L and RNN-Based Approach for Student Engagement Detection in E-Learning Environments\r\n"
     },
     {
-        "name": "Amal Johnson",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Learning Analytics",
-        "email": "amal.johnson@example.com"
+        "name": "Dr.Michael Raj S",
+        "college": "Nilgiri College of Arts and Science Autonomous Thaloor",
+        "paper_title": "Design and Development of an Efficient Lung Disease Diagnostic System Using Hybrid Feature Extraction Techniques and Classification Models\u201d\r\n"
     },
     {
-        "name": "Harshitha R",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Mobile App Development",
-        "email": "harshitha.r@example.com"
+        "name": "Dr.N.Anandakrishnan",
+        "college": "Nilgiri College of Arts and Science",
+        "paper_title": "Advances in Deep Neural Networks for Memory Structure Segmentation in the Brain\r\n"
     },
     {
-        "name": "Abhishek Singh",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Network Security",
-        "email": "abhishek.singh@example.com"
+        "name": "Dr.Renjith K V",
+        "college": "Nilgiri College of Arts and Science, Thaloor",
+        "paper_title": "A Hybrid EfficientNetV2-L and RNN-Based Approach for Student Engagement Detection in E-Learning Environments\r\n"
     },
     {
-        "name": "Anu Maria",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Object Oriented Design",
-        "email": "anu.maria@example.com"
+        "name": "Dr.Sreelekshmi C Warrier",
+        "college": "Sree Ayyappa College, Eramallikara",
+        "paper_title": "Content Soft Sets: Extensions and Applications\r\n"
     },
     {
-        "name": "Rakesh Patil",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Parallel Computing",
-        "email": "rakesh.patil@example.com"
+        "name": "GANGA T G",
+        "college": "NILGIRI COLLEGE OF ARTS AND SCIENCE",
+        "paper_title": "ROBOT MOTION PLANNING USING RRT AND OPTIMIZATION TECHNIQUES\r\n"
     },
     {
-        "name": "Diya Menon",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Quantum Algorithms",
-        "email": "diya.menon@example.com"
+        "name": "Jinson Devis",
+        "college": "Amal Jyothi College of Engineering",
+        "paper_title": "IoT-Based Smart Waste Management System for Sustainable Urban Living\r\n"
     },
     {
-        "name": "Pranav R",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "REST API Design",
-        "email": "pranav.r@example.com"
+        "name": "Keerthana P Subhash",
+        "college": "Nirmala College Muvattupuzha (Autonomous)",
+        "paper_title": "Graph-Theoretic Approach to Sustainable Urban Waste Management: A Network-Based Framework\r\n"
     },
     {
-        "name": "Reshma K",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Software Architecture",
-        "email": "reshma.k@example.com"
+        "name": "Ms S SHANTHI",
+        "college": "Nilgiri College of Arts and Science(Autonomous)",
+        "paper_title": "Effects of Social Media\r\n"
     },
     {
-        "name": "Sanjay Kumar",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Test Automation",
-        "email": "sanjay.kumar@example.com"
+        "name": "Ms. Jima T J",
+        "college": "Providence College for Women, Coonoor",
+        "paper_title": "An Analytical Assessment of AI-Based Machine Learning Models for Lung Cancer Prediction\r\n"
     },
     {
-        "name": "Keerthana S",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "User Behavior Analytics",
-        "email": "keerthana.s@example.com"
+        "name": "Niya Maria Noby",
+        "college": "Mangalam M C Varghese College of Arts and Science",
+        "paper_title": "Quality Over Complexity: A Theoretical Study of Data-Centric AI\r\n"
     },
     {
-        "name": "Arun Babu",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Visual Computing",
-        "email": "arun.babu@example.com"
+        "name": "Pavithra C",
+        "college": "Bharathiar University",
+        "paper_title": "Artificial intelligence and Machine learning\r\n"
     },
     {
-        "name": "Megha Nair",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Web Security",
-        "email": "megha.nair@example.com"
+        "name": "Reji Varkey",
+        "college": "NHS England",
+        "paper_title": "Automation for Operational Excellence using AI\r\n"
     },
     {
-        "name": "Kiran Patel",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "XML Data Processing",
-        "email": "kiran.patel@example.com"
+        "name": "RENUKA K G",
+        "college": "NILGIRI COLLEGE OF ARTS AND SCIENCE",
+        "paper_title": "Design and Development of an Efficient Lung Disease Diagnostic System Using Hybrid Feature Extraction Techniques and Classification Models\r\n"
     },
     {
-        "name": "Fathima Rahman",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "AI Ethics",
-        "email": "fathima.rahman@example.com"
+        "name": "Sreelekshmi A N",
+        "college": "Sree Ayyappa College",
+        "paper_title": "Recent Advances in Multimodal Imaging Fusion Techniques for Lung Infection Detection\r\n"
     },
     {
-        "name": "Aleena Thomas",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Business Intelligence",
-        "email": "aleena.thomas@example.com"
+        "name": "S.Thilagavathi",
+        "college": "NGM College Pollachi",
+        "paper_title": "Multimodal Machine Learning Ensemble for Accurate Early Lung Cancer Diagnosis\r\n"
     },
     {
-        "name": "Naveen Kumar",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Enterprise Systems",
-        "email": "naveen.kumar@example.com"
-    },
-    {
-        "name": "Lakshmi Priya",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Digital Forensics",
-        "email": "lakshmi.priya@example.com"
-    },
-    {
-        "name": "Yashwanth R",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Python for Data Science",
-        "email": "yashwanth.r@example.com"
-    },
-    {
-        "name": "Anjali Das",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Recommendation Systems",
-        "email": "anjali.das@example.com"
-    },
-    {
-        "name": "Varun Krishna",
-        "college": "Kristu Jyoti College of Management and Technology",
-        "paper_title": "Explainable AI",
-        "email": "varun.krishna@example.com"
+        "name": "Dr.R.Malathi Ravindran",
+        "college": "NGM College",
+        "paper_title": "Multimodel Machine Learning Ensemble for Accurate Early Lung Cancer Diagnosis.\r\n"
     }
 ]

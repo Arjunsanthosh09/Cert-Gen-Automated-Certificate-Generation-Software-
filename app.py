@@ -360,12 +360,12 @@ def download_all_certificates():
 
             text = f"""
 of <b>{college}</b> has presented a paper titled as
-<b>{paper}</b> and it is selected as the Best Paper in the
+<b>{paper}</b> in the
 <b>INTERNATIONAL CONFERENCE ON "VIKSIT BHARAT 2047:
 INTEGRATING BUSINESS, TECHNOLOGY AND
 COMPUTATIONAL MATHEMATICS FOR SUSTAINABLE
 FUTURE"</b> organised by <b>DEPARTMENT OF COMPUTER
-APPLICATIONS</b> From <b>05/02/2026 To 06/02/2026</b>
+APPLICATIONS</b> from <b>05/02/2026 to 06/02/2026</b>.
 """
 
             frame = Frame(87, 180, width - 180, 210, showBoundary=0)
@@ -563,13 +563,12 @@ def download_all_participant_certificates():
                 alignment=TA_JUSTIFY
             )
             text = f"""
-of <b>{college}</b> has presented a paper titled as
-<b>{paper}</b> and has participated in the
+This is to certify that <b>{college}</b> has participated in the
 <b>INTERNATIONAL CONFERENCE ON "VIKSIT BHARAT 2047:
 INTEGRATING BUSINESS, TECHNOLOGY AND
-COMPUTATIONAL MATHEMATICS FOR SUSTAINABLE
-FUTURE"</b> organised by <b>DEPARTMENT OF COMPUTER
-APPLICATIONS</b> From <b>05/02/2026 To 06/02/2026</b>
+COMPUTATIONAL MATHEMATICS FOR A SUSTAINABLE
+FUTURE"</b>, organised by the <b>DEPARTMENT OF COMPUTER
+APPLICATIONS</b> from <b>05/02/2026 to 06/02/2026</b>.
 """
 
             frame = Frame(87, 180, width - 180, 210, showBoundary=0)
