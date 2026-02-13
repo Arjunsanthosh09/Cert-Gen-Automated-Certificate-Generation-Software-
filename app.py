@@ -563,7 +563,7 @@ def download_all_participant_certificates():
                 alignment=TA_JUSTIFY
             )
             text = f"""
-This is to certify that <b>{college}</b> has participated in the
+ <b>{college}</b> has participated in the
 <b>INTERNATIONAL CONFERENCE ON "VIKSIT BHARAT 2047:
 INTEGRATING BUSINESS, TECHNOLOGY AND
 COMPUTATIONAL MATHEMATICS FOR A SUSTAINABLE

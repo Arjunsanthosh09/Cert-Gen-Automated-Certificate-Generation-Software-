@@ -1,14 +1,14 @@
 [
     {
-        "name": "Abhijith V Nair",
-        "college": "Mar Athanasios College For Advanced Studies Tiruvalla",
-        "paper_title": "Predictive Analysis Using Machine Learning Models for Real-World Applications",
-        "email": "arjunsanthosh440@gmail.com"
+        "name": "Aji Vijayan A S",
+        "college": "Almabani General Contractors"
     },
     {
-        "name": "Joel Thomas Chandy",
-        "college": "Mar Athanasios College For Advanced Studies Tiruvalla",
-        "paper_title": "A Comparative Study of Classification Algorithms for Data Prediction",
-        "email": "arjunsanthosh440@gmail.com"
+        "name": "Preethy George",
+        "college": "Karpagam Academy of Higher Education Pollachi"
+    },
+    {
+        "name": "Neenu Jose",
+        "college": "Karpagam Academy of Higher Education Pollachi "
     }
 ]
